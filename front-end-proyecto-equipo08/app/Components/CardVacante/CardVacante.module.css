@@ -1,0 +1,138 @@
+.vacante {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.sectionSubtitle {
+    color: #d4a017;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sectionTitle {
+    font-size: 2.5rem;
+    margin: 10px 0;
+    color: #333;
+}
+
+/* Grid */
+.vacantesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+/* Card Base */
+.vacanteCard {
+    background: #fff;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    border-top: 5px solid transparent;
+    transition: transform 0.3s ease;
+}
+
+.vacanteCard:hover {
+    transform: translateY(-5px);
+}
+
+/* Colores por tipo */
+.adjuntia { border-top-color: #2c3e50; }
+.empresa { border-top-color: #d4a017; }
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.badge {
+    background: #f0f2f5;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.vacantesCount {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.vacanteTitle {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    color: #222;
+}
+
+.vacanteDescription {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.vacanteDetails {
+    margin-bottom: 25px;
+}
+
+.detailItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.detailItem i {
+    width: 16px;
+    color: #777;
+}
+
+.cardFooter {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.modalidadTag {
+    background: #f4f4f4;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.detailsLink {
+    color: #d4a017;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.detailsLink:hover {
+    text-decoration: underline;
+}
