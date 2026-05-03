@@ -54,7 +54,7 @@ const pasos = [
     "https://images.unsplash.com/photo-1533228876829-65c94e7b5025?w=400&q=70", 
   },
 ];
-Steps
+
 export default function Steps() {
   return (
     <section className={styles.steps}>
@@ -74,7 +74,11 @@ export default function Steps() {
             {/* Imagen con badge y ícono */}
             <div className={styles.imgWrap}>
               {paso.imagen ? (
-                <img src={paso.imagen} alt={paso.titulo} className={styles.img} />
+                <img
+  src={paso.imagen}
+  alt={`Imagen del paso ${paso.numero}: ${paso.titulo}`}
+  className={styles.img}
+/>
               ) : (
                 <div className={styles.imgPlaceholder}>
                   <span className={styles.iconoGrande}>{paso.icono}</span>
