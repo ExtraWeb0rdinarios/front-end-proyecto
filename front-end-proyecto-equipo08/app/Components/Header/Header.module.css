@@ -1,0 +1,78 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #20698e;
+  color: white;
+  padding: 10px 30px;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.left h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  display: flex; /*es para los span*/
+  gap: 5px; /*interlineado*/
+}
+
+/*cada span tiene su color en cada parrafo*/
+.textEnlace {
+  color: #39d7e8;
+}
+
+.textMac {
+  color: #dfdf12f4;
+}
+
+.left p {
+  margin: 0;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.center {
+  display: flex;
+  gap: 12px;
+}
+
+.center button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.center button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* inicio sesion botom */
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.login {
+  background-color: #75aec6;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.login:hover {
+  background-color: #0284c7;
+}
