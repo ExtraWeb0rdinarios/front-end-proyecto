@@ -7,7 +7,6 @@ import Carousel from "./Components/Carousel/Carousel";
 export default function Home() {
   return (
     <>
-      <Header/>
       <Carousel/>
       <Hero />
       <CardVacante />

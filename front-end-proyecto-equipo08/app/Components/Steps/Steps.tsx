@@ -50,11 +50,12 @@ const pasos = [
     iconoColor: "#7c3aed",
     badgeBg: "#a78bfa",
     badgeColor: "#3b0764",
+    
     imagen: 
-    "https://images.unsplash.com/photo-1533228876829-65c94e7b5025?w=400&q=70", 
+    '/imagenes/nochains.png', 
   },
 ];
-
+ {/* "https://images.unsplash.com/photo-1533228876829-65c94e7b5025?w=400&q=70"*/}
 export default function Steps() {
   return (
     <section className={styles.steps}>

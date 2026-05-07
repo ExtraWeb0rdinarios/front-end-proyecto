@@ -43,10 +43,9 @@ const slides: Slide[] = [
 
 export default function Carousel() {
   return (
-    <div className="w-full  max-w-full mx-auto px-2 py-5 ">
+    <div className="w-full  max-w-full mx-full px-2 py-5 ">
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
-        spaceBetween={20}
         slidesPerView={1}
         navigation={true}
         pagination={{ clickable: true }}
