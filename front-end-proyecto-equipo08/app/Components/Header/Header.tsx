@@ -1,4 +1,7 @@
+'use client'
 import styles from './Header.module.css';
+import Link from 'next/link';
+
 
 export default function Header() {
   return (
@@ -15,9 +18,20 @@ export default function Header() {
 
       {/*cada botom del headeer*/}
       <nav className={styles.center}>
-        <button>Inicio</button>
-        <button>Vacantes</button>
-        <button>Postulaciones</button>
+        <Link href='/' passHref>
+          <button>Inicio
+          </button>
+        </Link>
+
+        <Link href='/Vacantes' passHref >
+          <button>Vacantes
+          </button>
+        </Link>
+
+        <Link href='/Postulaciones' passHref >
+          <button>Postulaciones
+          </button>
+        </Link>
         <button>Publicar</button>
         <button>Asesorías</button>
         <button>Info Oficial</button>
