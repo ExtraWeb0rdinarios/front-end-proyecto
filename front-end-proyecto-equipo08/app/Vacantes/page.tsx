@@ -1,5 +1,7 @@
+import BuscadorVacantes from "../Components/CardVacante/BuscadorVacantes";
+
 export default function Vacantes(){
-    return(<>
-    Aqui van a abundar las vacantes sisi que si
-    </>)
+    return(
+    <BuscadorVacantes/>
+    )
 }

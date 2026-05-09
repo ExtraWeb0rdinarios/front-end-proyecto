@@ -28,7 +28,7 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
   if (!response.ok) {
     // Lanza un error -> Next.js mostrara error.tsx / not-found.tsx
-    throw new Error(`No se pudo cargar el usuario ${id}`);
+    throw new Error(`No se pudo cargar la vacante ${id}`);
   }
 
   const data: VacanteProps = await response.json();

@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './CardVacante.module.css';
 import Link from 'next/link';
 
+ 
 let CardVacantes: String = 'Vanesa Sebastian Cervantes'
 
 export default function CardVacante () {

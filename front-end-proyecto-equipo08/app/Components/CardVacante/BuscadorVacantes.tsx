@@ -4,6 +4,9 @@ import { useState } from 'react';
 import styles from './BuscadorVacantes.module.css';
 import cardStyles from './CardVacante.module.css';
 import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faMapMarkerAlt,faClock, faUserTie} from '@fortawesome/free-solid-svg-icons'; 
+
 
 const vacantes = [
   {
@@ -137,15 +140,15 @@ export default function BuscadorVacantes() {
                   <p className={cardStyles.vacanteDescription}>{v.descripcion}</p>
                   <div className={cardStyles.vacanteDetails}>
                     <div className={cardStyles.detailItem}>
-                      <i className="fas fa-user-tie"></i>
+                      <FontAwesomeIcon icon={faUserTie}></FontAwesomeIcon>
                       <span>{v.responsable}</span>
                     </div>
                     <div className={cardStyles.detailItem}>
-                      <i className="fas fa-map-marker-alt"></i>
+                      <FontAwesomeIcon icon={faMapMarkerAlt}></FontAwesomeIcon>
                       <span>{v.lugar}</span>
                     </div>
                     <div className={cardStyles.detailItem}>
-                      <i className="fas fa-clock"></i>
+                        <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
                       <span>{v.horas}</span>
                     </div>
                   </div>
@@ -153,7 +156,7 @@ export default function BuscadorVacantes() {
                 <div className={cardStyles.cardFooter}>
                   <span className={cardStyles.modalidadTag}>{v.modalidad}</span>
                   <Link href="#" className={cardStyles.detailsLink}>
-                    Ver detalles <i className="fas fa-arrow-right"></i>
+                    Ver detalles <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon>
                   </Link>
                 </div>
               </article>

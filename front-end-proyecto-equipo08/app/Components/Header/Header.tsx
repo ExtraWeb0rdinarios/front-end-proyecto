@@ -34,14 +34,16 @@ export default function Header() {
         </Link>
         <button>Publicar</button>
         <button>Asesorías</button>
-        <button>Info Oficial</button>
         <button>FAQ</button>
         <button>Contacto</button>
       </nav>
 
       {/*este es el botom de inciar sesion*/}
       <div className={styles.right}>
-        <button className={styles.login}>Iniciar Sesión</button>
+        <Link href='/Login' passHref >
+          <button className={styles.login}>Iniciar Sesión</button>
+        </Link>
+        
       </div>
 
     </header>

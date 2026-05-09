@@ -34,7 +34,7 @@
 }
 
 .textMac {
-  color: #e2e203f4;
+  color: #cab217f4;
 }
 
 .left p {
@@ -70,7 +70,7 @@
 }
 
 .login {
-  background-color: #75aec6;
+  background-color: #526bfd;
   border: none;
   color: white;
   padding: 8px 14px;
@@ -80,5 +80,5 @@
 }
 
 .login:hover {
-  background-color: #0284c7;
+  background-color: #2441e2;
 }
