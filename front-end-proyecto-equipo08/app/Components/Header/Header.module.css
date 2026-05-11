@@ -1,84 +1,194 @@
+/* =============================================
+   Header — EnlaceMAC
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Outfit:wght@700;800&display=swap');
+
+/* ----- Contenedor principal ----- */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #20488e;
+  background: linear-gradient(135deg, #1a3a7c 0%, #1d3f85 60%, #1e4a9a 100%);
   color: white;
-  padding: 10px 30px;
+  padding: 0 32px;
+  height: 64px;
   width: 100%;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 24px rgba(32, 72, 142, 0.35);
+
+  /* línea animada inferior */
+  --line-gradient: linear-gradient(90deg, #39d7e8, #cab217, #39d7e8);
 }
 
-
-.header-hidden {
-  transform: translateY(-100%);
-  transition: transform 0.3s ease;
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--line-gradient);
+  background-size: 200% 100%;
+  animation: shimmer 5s linear infinite;
 }
 
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ----- Marca (izquierda) ----- */
 .left {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.left h1 {
+.brandRow {
+  display: flex;
+  align-items: baseline;
   margin: 0;
-  font-size: 20px;
-  font-weight: bold;
-  display: flex; /*es para los span*/
-  gap: 5px; /*interlineado*/
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.4px;
+  line-height: 1;
 }
 
-/*cada span tiene su color en cada parrafo*/
-.textEnlace {
-  color: #39d7e8;
+.textEnlace { color: #39d7e8; }
+.textMac    { color: #cab217; }
+
+.brandSub {
+  margin: 2px 0 0;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.3px;
 }
 
-.textMac {
-  color: #cab217f4;
-}
-
-.left p {
-  margin: 0;
-  font-size: 12px;
-  opacity: 0.8;
-}
-
+/* ----- Navegación (centro) ----- */
 .center {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 2px;
+  height: 100%;
 }
 
-.center button {
+.navBtn {
+  position: relative;
   background: none;
   border: none;
-  color: white;
-  font-size: 14px;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
   cursor: pointer;
-  padding: 8px 10px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: color 0.18s ease, background 0.18s ease;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-.center button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+/* línea de acento inferior */
+.navBtn::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  right: 50%;
+  height: 2px;
+  background: #39d7e8;
+  border-radius: 2px;
+  transition: left 0.22s ease, right 0.22s ease, opacity 0.22s ease;
+  opacity: 0;
 }
 
-/* inicio sesion botom */
+.navBtn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navBtn:hover::after {
+  left: 12px;
+  right: 12px;
+  opacity: 1;
+}
+
+/* estado activo */
+.navBtn.active {
+  color: #fff;
+  background: rgba(57, 215, 232, 0.1);
+}
+
+.navBtn.active::after {
+  left: 12px;
+  right: 12px;
+  opacity: 1;
+}
+
+/* ----- Login (derecha) ----- */
 .right {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .login {
-  background-color: #526bfd;
-  border: none;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 7px 20px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  backdrop-filter: blur(4px);
 }
 
 .login:hover {
-  background-color: #2441e2;
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.login:active {
+  transform: translateY(0);
+}
+
+/* ----- Responsive ----- */
+@media (max-width: 900px) {
+  .header {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 12px 20px;
+    gap: 10px;
+  }
+
+  .center {
+    order: 3;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding-bottom: 6px;
+  }
+
+  .navBtn {
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .brandRow { font-size: 18px; }
+  .navBtn   { font-size: 12px; padding: 4px 8px; }
 }

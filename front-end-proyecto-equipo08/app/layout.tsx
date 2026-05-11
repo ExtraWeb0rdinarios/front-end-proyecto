@@ -6,6 +6,8 @@ import { Inter } from 'next/font/google';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import Header from "./Components/Header/Header";
+import Footer from "./Components/Footer/Footer";
+
 config.autoAddCss = false; 
 
 const geistSans = Geist({
@@ -38,6 +40,7 @@ export default function RootLayout({
       className="min-h-full flex flex-col">
         <Header/>
         {children}
+        <Footer/>
       </body>
     </html>
     

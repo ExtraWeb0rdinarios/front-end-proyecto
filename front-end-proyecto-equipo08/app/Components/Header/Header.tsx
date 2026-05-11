@@ -1,49 +1,50 @@
 'use client'
 import styles from './Header.module.css';
 import Link from 'next/link';
-
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
+  const pathname = usePathname();
+
+  const navLinks = [
+    { href: '/',               label: 'Inicio' },
+    { href: '/Vacantes',       label: 'Vacantes' },
+    { href: '/Postulaciones',  label: 'Mis postulaciones' },
+    { href: '/Publicar',       label: 'Publicar' },
+    { href: '/FAQ',            label: 'FAQ' },
+    { href: '/Contacto',       label: 'Contacto' },
+  ];
+
   return (
     <header className={styles.header}>
-  
-      {/*aqui va el nombre de la pag*/}
+
+      {/* Nombre de la plataforma */}
       <div className={styles.left}>
-        <h1>
+        <h1 className={styles.brandRow}>
           <span className={styles.textEnlace}>ENLACE</span>
           <span className={styles.textMac}>MAC</span>
         </h1>
-        <p>Servicio social - FES Acatlán</p>
+        <p className={styles.brandSub}>Servicio social · FES Acatlán</p>
       </div>
 
-      {/*cada botom del headeer*/}
+      {/* Navegación central */}
       <nav className={styles.center}>
-        <Link href='/' passHref>
-          <button>Inicio
-          </button>
-        </Link>
+        {navLinks.map(({ href, label }) => (
+          <Link
+          key={href}
+          href={href}
+          className={`${styles.navBtn} ${pathname === href ? styles.active : ''}`}
+         >
+      {label}
+    </Link>
+  ))}
+</nav>
 
-        <Link href='/Vacantes' passHref >
-          <button>Vacantes
-          </button>
-        </Link>
-
-        <Link href='/Postulaciones' passHref >
-          <button>Postulaciones
-          </button>
-        </Link>
-        <button>Publicar</button>
-        <button>Asesorías</button>
-        <button>FAQ</button>
-        <button>Contacto</button>
-      </nav>
-
-      {/*este es el botom de inciar sesion*/}
+      {/* Botón de sesión */}
       <div className={styles.right}>
-        <Link href='/Login' passHref >
-          <button className={styles.login}>Iniciar Sesión</button>
+        <Link href='/Login' passHref legacyBehavior>
+          <a className={styles.login}>Iniciar sesión</a>
         </Link>
-        
       </div>
 
     </header>
