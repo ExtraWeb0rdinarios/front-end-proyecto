@@ -1,6 +1,11 @@
 import SignInForm from "../Components/SignIn/SignInForm";
+import { Suspense } from 'react'
+import { login } from "./actions"
 
 export default function Login(){
     return (
-    <SignInForm/>)
+        <Suspense>
+            <SignInForm action={login}/>
+        </Suspense>
+)
 }

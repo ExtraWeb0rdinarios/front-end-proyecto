@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
 
+import { createClient } from '@/lib/supabase/client';
 
 interface VacanteProps{
 id_vacante: number;
@@ -14,10 +14,8 @@ id_encargado: number;
 descripcion: string
 }
 
-const SUPABASE_URL: string = "https://edowcwplnnnjpybtfcll.supabase.co/";
-const SUPABASE_KEY: string = "sb_publishable_JPTg658IAqNhWoEjwJTOXA_8GomTesc";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabase = createClient();
 
 const getVac = async (id: number): Promise<VacanteProps | null> => {
     
