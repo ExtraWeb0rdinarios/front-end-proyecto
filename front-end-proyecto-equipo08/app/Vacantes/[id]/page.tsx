@@ -2,40 +2,65 @@ import { createClient } from '@supabase/supabase-js';
 
 
 interface VacanteProps{
-ID_vacante: number;
-Nombre: string;
-Fecha_publi: Date;
-Estado: boolean;
-ID_tipovacante: number;
-Horas: number;
-ID_modalidad: number;
-Tipo_horario: number;
-ID_encargado: number
+id_vacante: number;
+nombre: string;
+fecha_publi: Date;
+estado: boolean;
+id_tipovacante: number;
+horas: number;
+id_modalidad: number;
+tipo_horario: number;
+id_encargado: number;
+descripcion: string
 }
 
-async function getVac(id: string): Promise<VacanteProps> {
-    
-const SUPABASE_URL: string = "https://edowcwplnnnjpybtfcll.supabase.co";
+const SUPABASE_URL: string = "https://edowcwplnnnjpybtfcll.supabase.co/";
 const SUPABASE_KEY: string = "sb_publishable_JPTg658IAqNhWoEjwJTOXA_8GomTesc";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-
-
-  const response = await fetch(
-    `https://edowcwplnnnjpybtfcll.supabase.co/rest/v1/vacantes?id_vacante=eq.${id}`
-  );
-
-  if (!response.ok) {
-    // Lanza un error -> Next.js mostrara error.tsx / not-found.tsx
-    throw new Error(`No se pudo cargar la vacante ${id}`);
+const getVac = async (id: number): Promise<VacanteProps | null> => {
+    
+ try {
+    const { data, error } = await supabase
+      .from('vacantes')  
+      .select('*')
+      .eq('id_vacante', id)
+      .single()  
+      
+    if (error) {
+      throw new Error(error.message)
+    }
+    
+    if (!data) {
+      console.log(`❌ No se encontró la vacante con id ${id}`)
+      return null
+    }
+    
+    console.log("✅ Vacante recuperada:")
+    console.log(`   - Título: ${data.nombre}`)
+    console.log(`   - Descripción: ${data.descripcion.substring(0, 50)}...`)
+    
+    return data
+    
+  } catch (error) {
+    console.error("❌ Fallo en getVac:", error)
+    return null
   }
-
-  const data: VacanteProps = await response.json();
-  return data;
 }
 
 
-export default function Vacante(){
+const runFetch= async () => {
+await getVac(1);
+
+}
+
+
+export default async function Vacante(){
+const vacante = await getVac(1)
+
+return(<>Vacante {vacante?.id_vacante}
+    {vacante?.nombre}</>);
+
 
 }

@@ -13,7 +13,6 @@ export default function Home() {
       <Carousel/>
       <Hero />
       <main>
-  
         <Steps />
       </main>
       <VacantesDestacadas/>

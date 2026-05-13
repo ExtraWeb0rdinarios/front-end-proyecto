@@ -110,7 +110,7 @@ export default function CardVacante() {
               
               <div className={styles.cardFooter}>
                 <span className={styles.modalidadTag}>{vacante.modalidad}</span>
-                <Link href="#" className={styles.detailsLink}>
+                <Link href="/Vacantes/1" className={styles.detailsLink}>
                   Ver detalles <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon>
                 </Link>
               </div>

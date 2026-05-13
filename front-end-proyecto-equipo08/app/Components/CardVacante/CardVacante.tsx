@@ -1,9 +1,11 @@
 import React from 'react';
 import styles from './CardVacante.module.css';
 import Link from 'next/link';
-
+import vacante from '../../Vacantes/page'
  
 let CardVacantes: String = 'Vanesa Sebastian Cervantes'
+
+
 
 export default function CardVacante () {
     return (

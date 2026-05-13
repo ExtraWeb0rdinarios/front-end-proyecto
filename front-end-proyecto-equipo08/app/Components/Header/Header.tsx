@@ -42,11 +42,10 @@ export default function Header() {
 
       {/*botom iniciar sesion*/}
       <div className={styles.right}>
-        <Link href='/Login' passHref legacyBehavior>
-          <a className={styles.login}>Iniciar sesión</a>
+        <Link href='/Login' className={styles.login}>
+          Iniciar sesión
         </Link>
       </div>
-
     </header>
   );
 }
