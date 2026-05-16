@@ -90,3 +90,35 @@
   margin-bottom: 1rem;
   text-align: left;
 }
+
+.salarioBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.vacanteCard {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.vacanteCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(30, 58, 95, 0.15);
+  background: #f0f4ff;
+  cursor: pointer;
+}
+
+.adjuntia:hover {
+  border-top-color: #2563eb;
+  background: #eff6ff;
+}
+
+.empresa:hover {
+  border-top-color: #d4a017;
+  background: #fffbeb;
+}

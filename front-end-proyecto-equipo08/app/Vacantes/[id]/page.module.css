@@ -1,0 +1,168 @@
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.btnRegresar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #1e3a5f;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 2px solid #1e3a5f;
+  transition: all 0.25s ease;
+  background: white;
+}
+
+.btnRegresar:hover {
+  background: #1e3a5f;
+  color: white;
+  transform: translateX(-4px);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
+}
+
+
+.header {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-left: 6px solid #1e3a5f;
+}
+
+.headerTop {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.tipoBadge {
+  background: #f0f2f5;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.salarioBadge {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.titulo {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1e3a5f;
+  margin-bottom: 1rem;
+}
+
+.modalidadTag {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+
+.contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.seccion {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.seccionTitulo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 0.75rem;
+}
+
+.seccionTexto {
+  font-size: 0.95rem;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+
+.detallesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.detalleCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: transform 0.2s ease;
+}
+
+.detalleCard:hover {
+  transform: translateY(-3px);
+}
+
+.detalleIcono {
+  font-size: 1.5rem;
+}
+
+.detalleLabel {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.detalleValor {
+  font-size: 0.95rem;
+  color: #1e3a5f;
+  font-weight: 700;
+}
+
+/* ── Botón postular ── */
+.accion {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.btnPostular {
+  display: inline-block;
+  padding: 14px 36px;
+  background: #1e3a5f;
+  color: white;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.btnPostular:hover {
+  background: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}

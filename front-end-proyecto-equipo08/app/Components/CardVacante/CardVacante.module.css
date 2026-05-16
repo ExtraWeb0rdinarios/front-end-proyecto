@@ -43,16 +43,28 @@
     display: flex;
     flex-direction: column;
     border-top: 5px solid transparent;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, border-top-color 0.3s ease;
 }
 
 .vacanteCard:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(30, 58, 95, 0.15);
+    cursor: pointer;
 }
 
 /* Colores por tipo */
 .adjuntia { border-top-color: #2c3e50; }
 .empresa { border-top-color: #d4a017; }
+
+.adjuntia:hover {
+    border-top-color: #2563eb;
+    background: #eff6ff;
+}
+
+.empresa:hover {
+    border-top-color: #d4a017;
+    background: #fffbeb;
+}
 
 .cardHeader {
     display: flex;
@@ -79,6 +91,11 @@
     font-size: 1.4rem;
     margin-bottom: 15px;
     color: #222;
+    transition: color 0.3s ease;
+}
+
+.vacanteCard:hover .vacanteTitle {
+    color: #1e3a5f;
 }
 
 .vacanteDescription {
@@ -116,7 +133,6 @@
 }
 
 .modalidadTag {
-    background: #6573ec;
     padding: 4px 10px;
     border-radius: 4px;
     font-size: 0.85rem;
@@ -131,8 +147,10 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    transition: color 0.2s ease;
 }
 
 .detailsLink:hover {
+    color: #2563eb;
     text-decoration: underline;
 }

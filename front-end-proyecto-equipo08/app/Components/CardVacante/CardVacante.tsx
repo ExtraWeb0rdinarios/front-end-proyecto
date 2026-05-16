@@ -1,142 +1,189 @@
-import React from 'react';
-import styles from './CardVacante.module.css';
+'use client';
+
+import { useState, useEffect } from 'react';
+import styles from './BuscadorVacantes.module.css';
+import cardStyles from './CardVacante.module.css';
 import Link from 'next/link';
-import vacante from '../../Vacantes/page'
- 
-let CardVacantes: String = 'Vanesa Sebastian Cervantes'
+import { createClient } from '@/lib/supabase/client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faClock, faLocationDot, faFileAlt, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 
+interface VacanteProps {
+  id_vacante: number;
+  nombre: string;
+  fecha_publicacion: Date;
+  estado: boolean;
+  id_tipovacante: number;
+  horas: number;
+  id_modalidad: number;
+  tipo_horario: string;
+  id_encargado: number;
+  descripcion: string;
+  ubicacion: string;
+  requisitos: string;
+  salario: boolean;
+}
 
+const filtros = [
+  { label: "Todas", value: "Todas" },
+  { label: "Adjuntía con Profesor", value: "1" },
+  { label: "Empresa Externa", value: "2" },
+  { label: "💻 Híbrida", value: "hibrida" },
+  { label: "📍 Presencial", value: "presencial" },
+  { label: "🌐 En línea", value: "enlinea" },
+];
 
-export default function CardVacante () {
-    return (
-        <section className={styles.vacantes} id="vacantes">
-            <div className={styles.container}>
-                <div className={styles.vacantesGrid}>
-                    {/* Vacante 1: Análisis de Datos y ML */}
-                    <article className={`${styles.vacanteCard} ${styles.adjuntia}`}>
-                        <div className={styles.cardHeader}>
-                            <span className={styles.badge}>Adjuntía con Profesor</span>
-                            <span className={styles.vacantesCount}>2 vacantes</span>
-                        </div>
-                        <div className={styles.cardContent}>
-                            <h3 className={styles.vacanteTitle}>Análisis de Datos y Machine Learning</h3>
-                            <p className={styles.vacanteDescription}>
-                                Apoyo en proyectos de análisis de datos y desarrollo de modelos de machine learning para...
-                            </p>
-                            <div className={styles.vacanteDetails}>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-user-tie"></i> <span>Dra. María Elena Rodríguez</span>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-desktop"></i> <span>FES Acatlán - Laboratorio de Cómputo</span>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-clock"></i> <span>480 horas</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.cardFooter}>
-                            <span className={styles.modalidadTag}>Híbrida</span>
-                            <Link href="#" className={styles.detailsLink}>
-                                Ver detalles <i className="fas fa-arrow-right"></i>
-                            </Link>
-                        </div>
-                    </article>
+export default function BuscadorVacantes() {
+  const [vacantes, setVacantes] = useState<VacanteProps[]>([]);
+  const [busqueda, setBusqueda] = useState('');
+  const [filtroActivo, setFiltroActivo] = useState('Todas');
+  const [cargando, setCargando] = useState(true);
 
-                    {/* Vacante 2: Soporte Técnico */}
-                    <article className={`${styles.vacanteCard} ${styles.adjuntia}`}>
-                        <div className={styles.cardHeader}>
-                            <span className={styles.badge}>Adjuntía con Profesor</span>
-                            <span className={styles.vacantesCount}>4 vacantes</span>
-                        </div>
-                        <div className={styles.cardContent}>
-                            <h3 className={styles.vacanteTitle}>Soporte Técnico y Administración de Sistemas</h3>
-                            <p className={styles.vacanteDescription}>
-                                Mantenimiento de equipos de cómputo, administración de redes y soporte técnico a la...
-                            </p>
-                            <div className={styles.vacanteDetails}>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-user-cog"></i> <span>Ing. Roberto Sánchez</span>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-server"></i> <span>FES Acatlán - Centro de Cómputo</span>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-clock"></i> <span>480 horas</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.cardFooter}>
-                            <span className={styles.modalidadTag}>Presencial</span>
-                            <Link href="#" className={styles.detailsLink}>
-                                Ver detalles <i className="fas fa-arrow-right"></i>
-                            </Link>
-                        </div>
-                    </article>
+  useEffect(() => {
+    const fetchVacantes = async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('vacantes')
+        .select('*')
+        .eq('estado', true);
 
-                    {/* Vacante 3: Ciencia de Datos Finanzas */}
-                    <article className={`${styles.vacanteCard} ${styles.empresa}`}>
-                        <div className={styles.cardHeader}>
-                            <span className={styles.badge}>Empresa Externa</span>
-                            <span className={styles.vacantesCount}>2 vacantes</span>
-                        </div>
-                        <div className={styles.cardContent}>
-                            <h3 className={styles.vacanteTitle}>Ciencia de Datos en Finanzas</h3>
-                            <p className={styles.vacanteDescription}>
-                                Análisis de datos financieros, desarrollo de modelos predictivos y visualización de informaci...
-                            </p>
-                            <div className={styles.vacanteDetails}>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-university"></i> <span>Banco Nacional de México</span>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-map-marker-alt"></i> <span>Ciudad de México - Polanco</span>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-clock"></i> <span>480 horas</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.cardFooter}>
-                            <span className={styles.modalidadTag}>Presencial</span>
-                            <Link href="#" className={styles.detailsLink}>
-                                Ver detalles <i className="fas fa-arrow-right"></i>
-                            </Link>
-                        </div>
-                    </article>
+      if (error) {
+        console.error('Error al traer vacantes:', error);
+      } else {
+        setVacantes(data || []);
+      }
+      setCargando(false);
+    };
 
-                    {/* Vacante 4: Aplicaciones Móviles */}
-                    <article className={`${styles.vacanteCard} ${styles.adjuntia}`}>
-                        <div className={styles.cardHeader}>
-                            <span className={styles.badge}>Adjuntía con Profesor</span>
-                            <span className={styles.vacantesCount}>3 vacantes</span>
-                        </div>
-                        <div className={styles.cardContent}>
-                            <h3 className={styles.vacanteTitle}>Desarrollo de Aplicaciones Móviles</h3>
-                            <p className={styles.vacanteDescription}>
-                                Creación de aplicaciones móviles multiplataforma para proyectos de investigación y vinculación...
-                            </p>
-                            <div className={styles.vacanteDetails}>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-user-graduate"></i> <span>Mtro. Luis Fernando Torres</span>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-building"></i> <span>FES Acatlán - Edificio A3</span>
-                                </div>
-                                <div className={styles.detailItem}>
-                                    <i className="fas fa-clock"></i> <span>480 horas</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.cardFooter}>
-                            <span className={styles.modalidadTag}>Híbrida</span>
-                            <Link href="#" className={styles.detailsLink}>
-                                Ver detalles <i className="fas fa-arrow-right"></i>
-                            </Link>
-                        </div>
-                    </article>
+    fetchVacantes();
+  }, []);
+
+  const vacantesFiltradas = vacantes.filter((v) => {
+    const coincideBusqueda =
+      v.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+      v.descripcion?.toLowerCase().includes(busqueda.toLowerCase()) ||
+      v.ubicacion?.toLowerCase().includes(busqueda.toLowerCase());
+
+    const coincideFiltro =
+      filtroActivo === 'Todas' ||
+      v.id_tipovacante.toString() === filtroActivo ||
+      (filtroActivo === 'hibrida' && v.id_modalidad === 2) ||
+      (filtroActivo === 'presencial' && v.id_modalidad === 1) ||
+      (filtroActivo === 'enlinea' && v.id_modalidad === 3);
+
+    return coincideBusqueda && coincideFiltro;
+  });
+
+  const getModalidadEstilo = (id_modalidad: number) => {
+    if (id_modalidad === 1) return { background: '#dbeafe', color: '#1d4ed8' };
+    if (id_modalidad === 2) return { background: '#fef3c7', color: '#92400e' };
+    return { background: '#dcfce7', color: '#15803d' };
+  };
+
+  const getModalidadTexto = (id_modalidad: number) => {
+    if (id_modalidad === 1) return '📍 Presencial';
+    if (id_modalidad === 2) return '💻 Híbrida';
+    return '🌐 En línea';
+  };
+
+  return (
+    <section className={cardStyles.vacantes} id="vacantes">
+      <div className={styles.wrapper}>
+
+        {/* Barra de búsqueda y filtros */}
+        <div className={styles.buscadorBar}>
+          <div className={styles.inputWrap}>
+            <span className={styles.inputIcon}>🔍</span>
+            <input
+              type="text"
+              placeholder="Buscar vacante por nombre, lugar o descripción..."
+              className={styles.input}
+              value={busqueda}
+              onChange={(e) => setBusqueda(e.target.value)}
+            />
+          </div>
+          <div className={styles.filtros}>
+            {filtros.map((f) => (
+              <button
+                key={f.value}
+                className={`${styles.filtroBtn} ${filtroActivo === f.value ? styles.filtroBtnActivo : ''}`}
+                onClick={() => setFiltroActivo(f.value)}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Contador de resultados */}
+        <p className={styles.resultados}>
+          {cargando ? 'Cargando vacantes...' : `${vacantesFiltradas.length} vacante${vacantesFiltradas.length !== 1 ? 's' : ''} encontrada${vacantesFiltradas.length !== 1 ? 's' : ''}`}
+        </p>
+
+        {/* Grid de vacantes */}
+        <div className={cardStyles.vacantesGrid}>
+          {cargando ? (
+            <p style={{ color: '#6b7280', gridColumn: '1/-1', textAlign: 'center', padding: '2rem' }}>
+              ⏳ Cargando vacantes...
+            </p>
+          ) : vacantesFiltradas.length === 0 ? (
+            <p style={{ color: '#6b7280', gridColumn: '1/-1', textAlign: 'center', padding: '2rem' }}>
+              No se encontraron vacantes con ese criterio.
+            </p>
+          ) : (
+            vacantesFiltradas.map((v) => (
+              <article
+                key={v.id_vacante}
+                className={`${cardStyles.vacanteCard} ${v.id_tipovacante === 1 ? cardStyles.adjuntia : cardStyles.empresa}`}
+              >
+                <div className={cardStyles.cardHeader}>
+                  <span className={cardStyles.badge}>
+                    {v.id_tipovacante === 1 ? 'Adjuntía con Profesor' : 'Empresa Externa'}
+                  </span>
+                  {v.salario && (
+                    <span className={styles.salarioBadge}>
+                      <FontAwesomeIcon icon={faMoneyBill} /> Con apoyo económico
+                    </span>
+                  )}
                 </div>
-            </div>
-        </section>
-    )
+                <div className={cardStyles.cardContent}>
+                  <h3 className={cardStyles.vacanteTitle}>{v.nombre}</h3>
+                  <p className={cardStyles.vacanteDescription}>{v.descripcion}</p>
+                  <div className={cardStyles.vacanteDetails}>
+                    {v.ubicacion && (
+                      <div className={cardStyles.detailItem}>
+                        <FontAwesomeIcon icon={faLocationDot} />
+                        <span>{v.ubicacion}</span>
+                      </div>
+                    )}
+                    <div className={cardStyles.detailItem}>
+                      <FontAwesomeIcon icon={faClock} />
+                      <span>{v.horas} horas</span>
+                    </div>
+                    {v.requisitos && (
+                      <div className={cardStyles.detailItem}>
+                        <FontAwesomeIcon icon={faFileAlt} />
+                        <span>{v.requisitos}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className={cardStyles.cardFooter}>
+                  <span
+                    className={cardStyles.modalidadTag}
+                    style={getModalidadEstilo(v.id_modalidad)}
+                  >
+                    {getModalidadTexto(v.id_modalidad)}
+                  </span>
+                  <Link href={`/Vacantes/${v.id_vacante}`} className={cardStyles.detailsLink}>
+                    Ver detalles <FontAwesomeIcon icon={faArrowRight} />
+                  </Link>
+                </div>
+              </article>
+            ))
+          )}
+        </div>
+      </div>
+    </section>
+  );
 }

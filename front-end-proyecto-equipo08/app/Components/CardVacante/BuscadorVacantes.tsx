@@ -1,89 +1,90 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './BuscadorVacantes.module.css';
 import cardStyles from './CardVacante.module.css';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faMapMarkerAlt,faClock, faUserTie} from '@fortawesome/free-solid-svg-icons'; 
+import { faArrowRight, faClock, faLocationDot, faFileAlt, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 
-
-const vacantes = [
-  {
-    id: 1,
-    titulo: "Análisis de Datos y Machine Learning",
-    descripcion: "Apoyo en proyectos de análisis de datos y desarrollo de modelos de machine learning para...",
-    tipo: "Adjuntía con Profesor",
-    tipoKey: "adjuntia",
-    responsable: "Dra. María Elena Rodríguez",
-    lugar: "FES Acatlán - Laboratorio de Cómputo",
-    horas: "480 horas",
-    modalidad: "Híbrida",
-    vacantes: 2,
-  },
-  {
-    id: 2,
-    titulo: "Soporte Técnico y Administración de Sistemas",
-    descripcion: "Mantenimiento de equipos de cómputo, administración de redes y soporte técnico a la...",
-    tipo: "Adjuntía con Profesor",
-    tipoKey: "adjuntia",
-    responsable: "Ing. Roberto Sánchez",
-    lugar: "FES Acatlán - Centro de Cómputo",
-    horas: "480 horas",
-    modalidad: "Presencial",
-    vacantes: 4,
-  },
-  {
-    id: 3,
-    titulo: "Ciencia de Datos en Finanzas",
-    descripcion: "Análisis de datos financieros, desarrollo de modelos predictivos y visualización de informaci...",
-    tipo: "Empresa Externa",
-    tipoKey: "empresa",
-    responsable: "Banco Nacional de México",
-    lugar: "Ciudad de México - Polanco",
-    horas: "480 horas",
-    modalidad: "Presencial",
-    vacantes: 2,
-  },
-  {
-    id: 4,
-    titulo: "Desarrollo de Aplicaciones Móviles",
-    descripcion: "Creación de aplicaciones móviles multiplataforma para proyectos de investigación y vinculación...",
-    tipo: "Adjuntía con Profesor",
-    tipoKey: "adjuntia",
-    responsable: "Mtro. Luis Fernando Torres",
-    lugar: "FES Acatlán - Edificio A3",
-    horas: "480 horas",
-    modalidad: "Híbrida",
-    vacantes: 3,
-  },
-];
+interface VacanteProps {
+  id_vacante: number;
+  nombre: string;
+  fecha_publicacion: Date;
+  estado: boolean;
+  id_tipovacante: number;
+  horas: number;
+  id_modalidad: number;
+  tipo_horario: string;
+  id_encargado: number;
+  descripcion: string;
+  ubicacion: string;
+  requisitos: string;
+  salario: boolean;
+}
 
 const filtros = [
-  { label: "🗂️ Todas", value: "Todas" },
-  { label: "👨‍🏫 Adjuntía con Profesor", value: "Adjuntía con Profesor" },
-  { label: "🏢 Empresa Externa", value: "Empresa Externa" },
-  { label: "💻 Híbrida", value: "Híbrida" },
-  { label: "📍 Presencial", value: "Presencial" },
+  { label: "Todas", value: "Todas" },
+  { label: "Adjuntía con Profesor", value: "1" },
+  { label: "Empresa Externa", value: "2" },
+  { label: "💻 Híbrida", value: "hibrida" },
+  { label: "📍 Presencial", value: "presencial" },
+  { label: "🌐 En línea", value: "enlinea" },
 ];
 
 export default function BuscadorVacantes() {
+  const [vacantes, setVacantes] = useState<VacanteProps[]>([]);
   const [busqueda, setBusqueda] = useState('');
   const [filtroActivo, setFiltroActivo] = useState('Todas');
+  const [cargando, setCargando] = useState(true);
+
+  useEffect(() => {
+    const fetchVacantes = async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('vacantes')
+        .select('*')
+        .eq('estado', true);
+
+      if (error) {
+        console.error('Error al traer vacantes:', error);
+      } else {
+        setVacantes(data || []);
+      }
+      setCargando(false);
+    };
+
+    fetchVacantes();
+  }, []);
 
   const vacantesFiltradas = vacantes.filter((v) => {
     const coincideBusqueda =
-      v.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
-      v.descripcion.toLowerCase().includes(busqueda.toLowerCase()) ||
-      v.lugar.toLowerCase().includes(busqueda.toLowerCase());
+      v.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
+      v.descripcion?.toLowerCase().includes(busqueda.toLowerCase()) ||
+      v.ubicacion?.toLowerCase().includes(busqueda.toLowerCase());
 
     const coincideFiltro =
       filtroActivo === 'Todas' ||
-      v.tipo === filtroActivo ||
-      v.modalidad === filtroActivo;
+      v.id_tipovacante.toString() === filtroActivo ||
+      (filtroActivo === 'hibrida' && v.id_modalidad === 2) ||
+      (filtroActivo === 'presencial' && v.id_modalidad === 1) ||
+      (filtroActivo === 'enlinea' && v.id_modalidad === 3);
 
     return coincideBusqueda && coincideFiltro;
   });
+
+  const getModalidadEstilo = (id_modalidad: number) => {
+    if (id_modalidad === 1) return { background: '#dcfce7', color: '#15803d' };
+    if (id_modalidad === 2) return { background: '#fef3c7', color: '#92400e' };
+    return { background: '#dbeafe', color: '#1d4ed8' };
+  };
+
+  const getModalidadTexto = (id_modalidad: number) => {
+    if (id_modalidad === 1) return '📍 Presencial';
+    if (id_modalidad === 2) return '💻 Híbrida';
+    return '🌐 En línea';
+  };
 
   return (
     <section className={cardStyles.vacantes} id="vacantes">
@@ -95,7 +96,7 @@ export default function BuscadorVacantes() {
             <span className={styles.inputIcon}>🔍</span>
             <input
               type="text"
-              placeholder="Buscar vacante por nombre, lugar..."
+              placeholder="Buscar vacante por nombre, lugar o descripción..."
               className={styles.input}
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
@@ -116,47 +117,66 @@ export default function BuscadorVacantes() {
 
         {/* Contador de resultados */}
         <p className={styles.resultados}>
-          {vacantesFiltradas.length} vacante{vacantesFiltradas.length !== 1 ? 's' : ''} encontrada{vacantesFiltradas.length !== 1 ? 's' : ''}
+          {cargando ? 'Cargando vacantes...' : `${vacantesFiltradas.length} vacante${vacantesFiltradas.length !== 1 ? 's' : ''} encontrada${vacantesFiltradas.length !== 1 ? 's' : ''}`}
         </p>
 
         {/* Grid de vacantes */}
         <div className={cardStyles.vacantesGrid}>
-          {vacantesFiltradas.length === 0 ? (
+          {cargando ? (
+            <p style={{ color: '#6b7280', gridColumn: '1/-1', textAlign: 'center', padding: '2rem' }}>
+              ⏳ Cargando vacantes...
+            </p>
+          ) : vacantesFiltradas.length === 0 ? (
             <p style={{ color: '#6b7280', gridColumn: '1/-1', textAlign: 'center', padding: '2rem' }}>
               No se encontraron vacantes con ese criterio.
             </p>
           ) : (
             vacantesFiltradas.map((v) => (
               <article
-                key={v.id}
-                className={`${cardStyles.vacanteCard} ${cardStyles[v.tipoKey]}`}
+                key={v.id_vacante}
+                className={`${cardStyles.vacanteCard} ${v.id_tipovacante === 1 ? cardStyles.adjuntia : cardStyles.empresa}`}
               >
                 <div className={cardStyles.cardHeader}>
-                  <span className={cardStyles.badge}>{v.tipo}</span>
-                  <span className={cardStyles.vacantesCount}>{v.vacantes} vacantes</span>
+                  <span className={cardStyles.badge}>
+                    {v.id_tipovacante === 1 ? 'Adjuntía con Profesor' : 'Empresa Externa'}
+                  </span>
+                  {v.salario && (
+                    <span className={styles.salarioBadge}>
+                      <FontAwesomeIcon icon={faMoneyBill} /> Con apoyo económico
+                    </span>
+                  )}
                 </div>
                 <div className={cardStyles.cardContent}>
-                  <h3 className={cardStyles.vacanteTitle}>{v.titulo}</h3>
+                  <h3 className={cardStyles.vacanteTitle}>{v.nombre}</h3>
                   <p className={cardStyles.vacanteDescription}>{v.descripcion}</p>
                   <div className={cardStyles.vacanteDetails}>
+                    {v.ubicacion && (
+                      <div className={cardStyles.detailItem}>
+                        <FontAwesomeIcon icon={faLocationDot} />
+                        <span>{v.ubicacion}</span>
+                      </div>
+                    )}
                     <div className={cardStyles.detailItem}>
-                      <FontAwesomeIcon icon={faUserTie}></FontAwesomeIcon>
-                      <span>{v.responsable}</span>
+                      <FontAwesomeIcon icon={faClock} />
+                      <span>{v.horas} horas</span>
                     </div>
-                    <div className={cardStyles.detailItem}>
-                      <FontAwesomeIcon icon={faMapMarkerAlt}></FontAwesomeIcon>
-                      <span>{v.lugar}</span>
-                    </div>
-                    <div className={cardStyles.detailItem}>
-                        <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
-                      <span>{v.horas}</span>
-                    </div>
+                    {v.requisitos && (
+                      <div className={cardStyles.detailItem}>
+                        <FontAwesomeIcon icon={faFileAlt} />
+                        <span>{v.requisitos}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className={cardStyles.cardFooter}>
-                  <span className={cardStyles.modalidadTag}>{v.modalidad}</span>
-                  <Link href="#" className={cardStyles.detailsLink}>
-                    Ver detalles <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon>
+                  <span
+                    className={cardStyles.modalidadTag}
+                    style={getModalidadEstilo(v.id_modalidad)}
+                  >
+                    {getModalidadTexto(v.id_modalidad)}
+                  </span>
+                  <Link href={`/Vacantes/${v.id_vacante}`} className={cardStyles.detailsLink}>
+                    Ver detalles <FontAwesomeIcon icon={faArrowRight} />
                   </Link>
                 </div>
               </article>
