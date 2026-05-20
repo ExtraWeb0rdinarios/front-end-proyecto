@@ -23,21 +23,21 @@ const slides: Slide[] = [
   },
   { 
     id: 2, 
-    imagen: "/imagenes/cedetec_01.jpg", 
+    imagen: "/imagenes/cedetec.jpg", 
     linktext: "¡El CEDETEC podria ser tu proxima gran historia!, ¡informate sobre su Servicio Social ahora!",
     link: "https://cedetec.acatlan.unam.mx/DSC/colabora"
   },
   { 
     id: 3, 
-    imagen: "/imagenes/gokutablos.jpeg", 
-    link: "https://www.youtube.com/watch?v=Inbg9Pcu7u8", 
-    linktext: "ver esencia"
+    imagen: "/imagenes/santander.jpg", 
+    link: "https://www.universia.net/mx/empleo/fe8cfd86-0fb8-4209-92e0-9a1912c93896/data-analyst-santander-future-talents-retail-graduate-program-mexico-hybrid.html", 
+    linktext: "¿Comó sabras si no eres un futuro talento si no lo intentas?"
   },
   { 
     id: 4, 
-    imagen: "/imagenes/fede.jpg",
-    link: "#",
-    linktext: "Conoce más"
+    imagen: "/imagenes/GenOracle.jpg",
+    link: "https://careers.oracle.com/en/sites/jobsearch/job/332331/?utm_medium=Third%20party&utm_source=geno26_campaign&source=%3Aso%3Ach%3Aor%3Aawr%3A%3A%3A%3AGENO26LAD",
+    linktext: "Unete a la GENeración Oracle!"
   },
 ];
 
