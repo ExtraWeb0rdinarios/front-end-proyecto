@@ -2,25 +2,20 @@
     return(<>Aqui van a ver muchas muchas postulaciones yo creo</>)
 }*/
 //AQUI ENLAZAMOS CON VACANTES, UNA VEZ Q SE RELACIONE CON LA BASE DE DATOS
-'use client';
+import { createClient } from '@/lib/supabase/server';
 import styles from './Postulaciones.module.css';
 
-type EstadoPostulacion =
-  | 'Enviada'
-  | 'Leída'
-  | 'Revisada'
-  | 'En proceso'
-  | 'Aceptada'
-  | 'Rechazada';
-
 interface Postulacion {
-  id: number;
-  titulo: string;
-  institucion: string;
-  fechaEnvio: string;
-  modalidad: string;
-  duracion: string;
-  estado: EstadoPostulacion;
+  id_postulacion: number;
+  fecha_postulacion: string;
+  estado_postulacion: string;
+  vacantes:{
+    nombre: string
+    horas: number
+    tipo_horario: string
+    id_modalidad: number
+    ubicacion: string
+  }[]
 }
 // AQUÍ SE OBTENDRÁN LAS POSTULACIONES DESDE SUPABASE (fetch a Supabase)---------------------------------------------------------------------------------
 // algo asi: const { data } = await supabase
@@ -28,65 +23,16 @@ interface Postulacion {
 //   .select('*')
 //   .eq('usuario_id', session.user.id)
 // ─────────────────────────────────────────────
-const MOCK_POSTULACIONES: Postulacion[] = [
-  {
-    id: 1,
-    titulo: 'Análisis de Datos en Instituto de Investigaciones Biomédicas',
-    institucion: 'Instituto de Investigaciones Biomédicas, UNAM',
-    fechaEnvio: '9 de febrero de 2024',
-    modalidad: 'Presencial',
-    duracion: '6 meses',
-    estado: 'Revisada',
-  },
-  {
-    id: 2,
-    titulo: 'Administración de Bases de Datos en Biblioteca Central',
-    institucion: 'Biblioteca Central, UNAM',
-    fechaEnvio: '7 de febrero de 2024',
-    modalidad: 'Híbrida',
-    duracion: '6 meses',
-    estado: 'Aceptada',
-  },
-  {
-    id: 3,
-    titulo: 'Desarrollo de Sistema Web para Coordinación Escolar',
-    institucion: 'FES Acatlán, UNAM',
-    fechaEnvio: '1 de febrero de 2024',
-    modalidad: 'Remoto',
-    duracion: '12 meses',
-    estado: 'En proceso',
-  },
-  {
-    id: 4,
-    titulo: 'Soporte Técnico y Redes — Dirección de Cómputo',
-    institucion: 'Dirección General de Cómputo, UNAM',
-    fechaEnvio: '25 de enero de 2024',
-    modalidad: 'Presencial',
-    duracion: '6 meses',
-    estado: 'Enviada',
-  },
-  {
-    id: 5,
-    titulo: 'Análisis Estadístico para Proyecto de Epidemiología',
-    institucion: 'Facultad de Medicina, UNAM',
-    fechaEnvio: '18 de enero de 2024',
-    modalidad: 'Remoto',
-    duracion: '6 meses',
-    estado: 'Rechazada',
-  },
-];
+
 //iconos
-const ESTADO_META: Record<
-  EstadoPostulacion,
-  { clase: string; icono: string }
-> = {
-  Enviada:    { clase: styles.badgeEnviada,   icono: '📤' },
-  Leída:      { clase: styles.badgeLeida,     icono: '👁️' },
-  Revisada:   { clase: styles.badgeRevisada,  icono: '🔍' },
-  'En proceso': { clase: styles.badgeProceso, icono: '⚙️' },
-  Aceptada:   { clase: styles.badgeAceptada,  icono: '✅' },
-  Rechazada:  { clase: styles.badgeRechazada, icono: '❌' },
-};
+type EstadoPostulacion = 'Pendiente' | 'Aceptada' | 'Rechazada' | 'En proceso'
+
+const ESTADO_META: Record<EstadoPostulacion, { clase: string; icono: string }> = {
+  Pendiente:    { clase: styles.badgeEnviada,   icono: '📤' },
+  'En proceso': { clase: styles.badgeProceso,   icono: '⚙️' },
+  Aceptada:     { clase: styles.badgeAceptada,  icono: '✅' },
+  Rechazada:    { clase: styles.badgeRechazada, icono: '❌' },
+}
 
 function Badge({ estado }: { estado: EstadoPostulacion }) {
   const { clase, icono } = ESTADO_META[estado];
@@ -109,29 +55,29 @@ function CardPostulacion({ post }: { post: Postulacion }) {
     <article className={styles.card}>
       <div className={styles.cardHeader}>
         <div className={styles.cardTitleGroup}>
-          <h3 className={styles.cardTitulo}>{post.titulo}</h3>
+          <h3 className={styles.cardTitulo}>{post.vacantes?.nombre}</h3>
           <p className={styles.cardInstitucion}>
             <span className={styles.iconSmall}>🏛️</span>
-            {post.institucion}
+            {post.vacantes?.ubicacion}
           </p>
         </div>
-        <Badge estado={post.estado} />
+        <Badge estado={post.estado_postulacion} />
       </div>
 
       <div className={styles.cardMeta}>
         <span className={styles.metaItem}>
           <span className={styles.iconSmall}>📅</span>
-          Postulado el {post.fechaEnvio}
+          Postulado el {post.fecha_postulacion}
         </span>
         <span className={styles.metaDivider} aria-hidden="true" />
         <span className={styles.metaItem}>
           <span className={styles.iconSmall}>🗂️</span>
-          {post.modalidad}
+          {post.vacantes?.id_modalidad}
         </span>
         <span className={styles.metaDivider} aria-hidden="true" />
         <span className={styles.metaItem}>
           <span className={styles.iconSmall}>⏱️</span>
-          {post.duracion}
+          {post.vacantes?.horas}
         </span>
       </div>
 
@@ -150,9 +96,34 @@ function CardPostulacion({ post }: { post: Postulacion }) {
 }
 
 //principal
-export default function MisPostulaciones() {
-  // AQUÍ SE OBTENDRÁN LAS POSTULACIONES DESDE SUPABASE------------------------------------
-  const postulaciones = MOCK_POSTULACIONES;
+export default async function MisPostulaciones() {
+  const supabase = await createClient()
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const {data: usuario} = await supabase 
+    .from('usuarios')
+    .select('id_estudiante')
+    .eq('auth_id',user?.id)
+    .single()
+
+  const {data: postulacion} = await supabase
+    .from('postulaciones')
+    .select(`
+      id_postulacion,
+      fecha_postulacion,
+      estado_postulacion,
+      vacantes(
+      nombre,
+      horas,
+      id_modalidad,
+      tipo_horario
+      )
+    `)
+    .eq('id_alumno',usuario?.id_estudiante)
+  
+
+  const postulaciones = postulacion ?? [];
 
   return (
     <main className={styles.page}>
@@ -179,7 +150,7 @@ export default function MisPostulaciones() {
       ) : (
         <div className={styles.list}>
           {postulaciones.map((post) => (
-            <CardPostulacion key={post.id} post={post} />
+            <CardPostulacion key={post.id_postulacion} post={post} />
           ))}
         </div>
       )}
