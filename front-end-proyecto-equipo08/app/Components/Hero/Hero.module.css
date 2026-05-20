@@ -1,187 +1,184 @@
-/* ========== HERO SECTION ========== */
-.hero {
-    height: 55vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--gradient-bg);
-    position: relative;
-    overflow: hidden;
-}
+/* Hero.module.css */
 
-.hero__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
+.hero {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  background: var(--gradient-bg);
+  position: relative;
+  overflow: hidden;
 }
 
 .hero__container {
-    display: grid;
-    gap: 0.5rem;
-    align-items: center;
-    justify-items: center;
-    position: relative;
-    z-index: 1;
-    max-width: 1000px;
-    width: 90%;
-    margin: 0 auto;
-    transform: translateY(0);
+  display: grid;
+  gap: 2rem;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
+
+.hero__content {
+  text-align: center;
 }
 
 .hero__greeting {
-    display: inline-flex;          
-    align-items: center;
-    justify-content: center;
-    gap: 0.02rem;
-    background-color: rgba(132, 126, 126, 0.307); 
-    color: var(--color-text-secondary, #000000); 
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50px;        
-    padding: 0.1rem 1rem;      
-    font-size: 0.9rem;          
-    font-weight: 500;            
-    letter-spacing: 0.5px;         
-    backdrop-filter: blur(4px);    
-    transition: all 0.3s ease;     
-    margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(132, 126, 126, 0.307);
+  padding: 0.3rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
 }
 
 .hero__title {
-    font-size: 3.5rem;
-    font-weight: 800;
-    color:#f7ca36;
-    line-height: 2;
-    margin-bottom: 0.01rem;
-}
-
-.hero__subtitle {
-    font-size: var(--font-size-2xl);
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-lg);
-}
-
-.highlight {
-    background: var(--gradient-primary);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #f7ca36;
+  margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
 .hero__description {
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: #000000;
-    margin-bottom: var(--spacing-xl);
-    text-align: center;
-    max-width: 800px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 1.5rem;
+  max-width: 100%;
 }
 
 .hero__buttons {
-    display: flex;
-    gap: var(--spacing-md);
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
 }
+
+.btn_primary,
+.btn_secondary {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.btn_primary {
+  background: #f7ca36;
+  color: #000;
+  border: none;
+}
+
+.btn_secondary {
+  background: transparent;
+  color: #f7ca36;
+  border: 2px solid #f7ca36;
+}
+
 
 .hero__image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-.hero__blob {
-    width: 350px;
-    height: 350px;
-    background: var(--gradient-primary);
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: blob-animation 8s ease-in-out infinite;
-    position: relative;
-}
-
-@keyframes blob-animation {
-    0%, 100% {
-        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    }
-    50% {
-        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    }
-}
-
-.hero__avatar {
-    width: 280px;
-    height: 280px;
-    background: var(--color-bg-primary);
-    border-radius: 5%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 8rem;
-    color: #1d09cc;
+  display: none;
+  position: relative;
+  justify-content: center;
+  align-items: center;
 }
 
 .hero__decoration {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    animation: float 3s ease-in-out infinite;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  animation: float 3s ease-in-out infinite;
 }
 
 .hero__decoration--1 {
-    top: 10%;
-    left: 10%;
-    background: var(--color-primary);
-    animation-delay: 0s;
+  top: 10%;
+  left: 10%;
+  background: #f7ca36;
 }
 
 .hero__decoration--2 {
-    top: 20%;
-    right: 10%;
-    background: var(--color-secondary);
-    animation-delay: 1s;
+  top: 20%;
+  right: 10%;
+  background: #ff6b6b;
 }
 
 .hero__decoration--3 {
-    bottom: 20%;
-    left: 20%;
-    background: var(--color-primary-light);
-    animation-delay: 2s;
+  bottom: 20%;
+  left: 20%;
+  background: #4ecdc4;
+}
+
+/* ========== MEDIA QUERIES ========== */
+
+@media (min-width: 768px) {
+  .hero {
+    min-height: 55vh;
+  }
+
+  .hero__container {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .hero__content {
+    text-align: left;
+  }
+
+  .hero__title {
+    font-size: 2.5rem;
+  }
+
+  .hero__description {
+    font-size: 1rem;
+  }
+
+  .hero__buttons {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .hero__image {
+    display: flex; /* md:flex */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero__title {
+    font-size: 3rem;
+  }
+
+  .hero__description {
+    font-size: 1.1rem;
+  }
+
+  .hero__image {
+    display: flex;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero__title {
+    font-size: 3.5rem;
+  }
+
+  .hero__description {
+    font-size: 1.2rem;
+  }
 }
 
 @keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-10px);
-    }
-    60% {
-        transform: translateY(-5px);
-    }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
 }
