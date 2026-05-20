@@ -1,122 +1,133 @@
-import React from 'react';
-import styles from './CardVacante.module.css';
+'use client';
+
+import { useState, useEffect } from 'react';
+import cardStyles from './CardVacante.module.css';
+import styles from './VacantesDestacadas.module.css';
 import Link from 'next/link';
+import { createClient } from '@/lib/supabase/client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faMapMarkerAlt,faClock, faUserTie} from '@fortawesome/free-solid-svg-icons'; 
+import { faArrowRight, faClock, faLocationDot, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 
-const vacantes = [
-  {
-    id: 1,
-    titulo: "Análisis de Datos y Machine Learning",
-    descripcion: "Apoyo en proyectos de análisis de datos y desarrollo de modelos de machine learning para...",
-    tipo: "Adjuntía con Profesor",
-    tipoKey: "adjuntia",
-    responsable: "Dra. María Elena Rodríguez",
-    lugar: "FES Acatlán - Laboratorio de Cómputo",
-    horas: "480 horas",
-    modalidad: "Híbrida",
-    vacantes: 2,
-  },
-  {
-    id: 2,
-    titulo: "Soporte Técnico y Administración de Sistemas",
-    descripcion: "Mantenimiento de equipos de cómputo, administración de redes y soporte técnico a la...",
-    tipo: "Adjuntía con Profesor",
-    tipoKey: "adjuntia",
-    responsable: "Ing. Roberto Sánchez",
-    lugar: "FES Acatlán - Centro de Cómputo",
-    horas: "480 horas",
-    modalidad: "Presencial",
-    vacantes: 4,
-  },
-  {
-    id: 3,
-    titulo: "Ciencia de Datos en Finanzas",
-    descripcion: "Análisis de datos financieros, desarrollo de modelos predictivos y visualización de informaci...",
-    tipo: "Empresa Externa",
-    tipoKey: "empresa",
-    responsable: "Banco Nacional de México",
-    lugar: "Ciudad de México - Polanco",
-    horas: "480 horas",
-    modalidad: "Presencial",
-    vacantes: 2,
-  },
-  {
-    id: 4,
-    titulo: "Desarrollo de Aplicaciones Móviles",
-    descripcion: "Creación de aplicaciones móviles multiplataforma para proyectos de investigación y vinculación...",
-    tipo: "Adjuntía con Profesor",
-    tipoKey: "adjuntia",
-    responsable: "Mtro. Luis Fernando Torres",
-    lugar: "FES Acatlán - Edificio A3",
-    horas: "480 horas",
-    modalidad: "Híbrida",
-    vacantes: 3,
-  },
-];
+interface VacanteProps {
+  id_vacante: number;
+  nombre: string;
+  fecha_publicacion: Date;
+  estado: boolean;
+  id_tipovacante: number;
+  horas: number;
+  id_modalidad: number;
+  tipo_horario: string;
+  id_encargado: number;
+  descripcion: string;
+  ubicacion: string;
+  requisitos: string;
+  salario: boolean;
+}
 
-// Función para obtener el ícono según el tipo de responsable
-const getResponsibleIcon = (tipo: string) => {
-  if (tipo === "Adjuntía con Profesor") {
-    return "fas fa-user-tie";
-  } else if (tipo === "Empresa Externa") {
-    return "fas fa-university";
-  }
-  return "fas fa-user";
-};
+export default function VacantesDestacadas() {
+  const [vacantes, setVacantes] = useState<VacanteProps[]>([]);
+  const [cargando, setCargando] = useState(true);
 
-// Función para obtener el ícono según el lugar
-const getPlaceIcon = (lugar: string | string[]) => {
-  if (lugar.includes("FES Acatlán")) {
-    return "fas fa-desktop";
-  }
-  return "fas fa-map-marker-alt";
-};
+  useEffect(() => {
+    const fetchVacantes = async () => {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('vacantes')
+        .select('*')
+        .eq('estado', true)
+        .order('fecha_publicacion', { ascending: false })
+        .limit(4);
 
-export default function CardVacante() {
+      if (error) {
+        console.error('Error al traer vacantes destacadas:', error);
+      } else {
+        setVacantes(data || []);
+      }
+      setCargando(false);
+    };
+
+    fetchVacantes();
+  }, []);
+
+  const getModalidadEstilo = (id_modalidad: number) => {
+    if (id_modalidad === 1) return { background: '#dcfce7', color: '#15803d' };
+    if (id_modalidad === 2) return { background: '#fef3c7', color: '#92400e' };
+    return { background: '#dbeafe', color: '#1d4ed8' };
+  };
+
+  const getModalidadTexto = (id_modalidad: number) => {
+    if (id_modalidad === 1) return '📍 Presencial';
+    if (id_modalidad === 2) return '💻 Híbrida';
+    return '🌐 En línea';
+  };
+
   return (
-    <section className={styles.vacantes} id="vacantes">
-      <div className={styles.container}>
-        <div className={styles.vacantesGrid}>
-          {vacantes.map((vacante) => (
-            <article 
-              key={vacante.id}
-              className={`${styles.vacanteCard} ${styles[vacante.tipoKey]}`}
+    <section className={styles.seccion}>
+      <div className={styles.encabezado}>
+        <span className={styles.eyebrow}>🆕 Recién agregadas</span>
+        <h2 className={styles.titulo}>Vacantes más recientes</h2>
+        <p className={styles.subtitulo}>
+          Las últimas oportunidades de servicio social disponibles
+        </p>
+      </div>
+
+      {cargando ? (
+        <p style={{ textAlign: 'center', color: '#6b7280', padding: '2rem' }}>
+          ⏳ Cargando vacantes...
+        </p>
+      ) : (
+        <div className={cardStyles.vacantesGrid}>
+          {vacantes.map((v) => (
+            <article
+              key={v.id_vacante}
+              className={`${cardStyles.vacanteCard} ${v.id_tipovacante === 1 ? cardStyles.adjuntia : cardStyles.empresa}`}
             >
-              <div className={styles.cardHeader}>
-                <span className={styles.badge}>{vacante.tipo}</span>
-                <span className={styles.vacantesCount}>{vacante.vacantes} vacantes</span>
+              <div className={cardStyles.cardHeader}>
+                <span className={cardStyles.badge}>
+                  {v.id_tipovacante === 1 ? 'Adjuntía con Profesor' : 'Empresa Externa'}
+                </span>
+                {v.salario && (
+                  <span className={styles.salarioBadge}>
+                    <FontAwesomeIcon icon={faMoneyBill} /> Con apoyo económico
+                  </span>
+                )}
               </div>
-              
-              <div className={styles.cardContent}>
-                <h3 className={styles.vacanteTitle}>{vacante.titulo}</h3>
-                <p className={styles.vacanteDescription}>{vacante.descripcion}</p>
-                
-                <div className={styles.vacanteDetails}>
-                  <div className={styles.detailItem}>
-                    <i className={getResponsibleIcon(vacante.tipo)}></i> 
-                    <span>{vacante.responsable}</span>
-                  </div>
-                  <div className={styles.detailItem}>
-                    <i className={getPlaceIcon(vacante.lugar)}></i> 
-                    <span>{vacante.lugar}</span>
-                  </div>
-                  <div className={styles.detailItem}>
-                      <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
-                    <span>{vacante.horas}</span>
+              <div className={cardStyles.cardContent}>
+                <h3 className={cardStyles.vacanteTitle}>{v.nombre}</h3>
+                <p className={cardStyles.vacanteDescription}>{v.descripcion}</p>
+                <div className={cardStyles.vacanteDetails}>
+                  {v.ubicacion && (
+                    <div className={cardStyles.detailItem}>
+                      <FontAwesomeIcon icon={faLocationDot} />
+                      <span>{v.ubicacion}</span>
+                    </div>
+                  )}
+                  <div className={cardStyles.detailItem}>
+                    <FontAwesomeIcon icon={faClock} />
+                    <span>{v.horas} horas</span>
                   </div>
                 </div>
               </div>
-              
-              <div className={styles.cardFooter}>
-                <span className={styles.modalidadTag}>{vacante.modalidad}</span>
-                <Link href="/Vacantes/1" className={styles.detailsLink}>
-                  Ver detalles <FontAwesomeIcon icon={faArrowRight}></FontAwesomeIcon>
+              <div className={cardStyles.cardFooter}>
+                <span
+                  className={cardStyles.modalidadTag}
+                  style={getModalidadEstilo(v.id_modalidad)}
+                >
+                  {getModalidadTexto(v.id_modalidad)}
+                </span>
+                <Link href={`/Vacantes/${v.id_vacante}`} className={cardStyles.detailsLink}>
+                  Ver detalles <FontAwesomeIcon icon={faArrowRight} />
                 </Link>
               </div>
             </article>
           ))}
         </div>
+      )}
+
+      <div className={styles.verMas}>
+        <Link href="/Vacantes" className={styles.btnVerMas}>
+          Ver todas las vacantes →
+        </Link>
       </div>
     </section>
   );
