@@ -1,10 +1,16 @@
 'use client'
+import { logout } from '@/app/Login/actions';
 import styles from './Header.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
-export default function Header() {
+interface HeaderProps {
+  isLoggedIn: boolean
+  perfilUrl: string
+}
+
+export default function Header({ isLoggedIn }: HeaderProps) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -55,9 +61,17 @@ export default function Header() {
 
       {/*botom al movil*/}
       <div className={styles.right}>
-        <Link href='/Login' className={styles.login}>
-          Iniciar sesión
-        </Link>
+        {isLoggedIn ? (
+            <form action={logout}>
+                <button type="submit"  className={styles.login}>
+                  Cerrar sesión
+                </button>
+              </form>
+        ) :(
+            <Link href='/Login' className={styles.login}>
+              Iniciar sesión
+            </Link>
+        )}
       </div>
 
       {/*breakppint*/}
