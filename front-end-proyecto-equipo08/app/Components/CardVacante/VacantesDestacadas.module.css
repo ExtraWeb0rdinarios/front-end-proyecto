@@ -1,0 +1,75 @@
+.seccion {
+  padding: 3.5rem 2rem;
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+.encabezado {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff8e1;
+  color: #b45309;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid #fde68a;
+  margin-bottom: 1rem;
+}
+
+.titulo {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 0.5rem;
+}
+
+.subtitulo {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.salarioBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #dcfce7;
+  color: #16a34a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.verMas {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.btnVerMas {
+  display: inline-block;
+  padding: 12px 28px;
+  background: white;
+  color: #1e3a5f;
+  border: 2px solid #1e3a5f;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.btnVerMas:hover {
+  background: #1e3a5f;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(30, 58, 95, 0.25);
+}

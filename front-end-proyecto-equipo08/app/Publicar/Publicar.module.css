@@ -2,278 +2,319 @@
 
 .page {
   max-width: 720px;
-  margin: 0 auto;
-  padding: 48px 24px 80px;
-  font-family: 'DM Sans', sans-serif;
+    margin: 0 auto;
+      padding: 48px 24px 80px;
+        font-family: 'DM Sans', sans-serif;
+        }
+
+        .pageHeader { margin-bottom: 28px; }
+
+        .pageTitle {
+          font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+              font-weight: 700;
+                color: #1a3a7c;
+                  margin: 0 0 6px;
+                  }
+
+                  .pageSubtitle {
+                    font-size: 14px;
+                      color: #6b7280;
+                        margin: 0;
+                        }
+
+                        .infoBanner {
+                          display: flex;
+                            gap: 14px;
+                              align-items: flex-start;
+                                background: #eff6ff;
+                                  border: 1px solid #bfdbfe;
+                                    border-left: 4px solid #1d4ed8;
+                                      border-radius: 10px;
+                                        padding: 14px 18px;
+                                          margin-bottom: 36px;
+                                          }
+
+                                          .infoIcon { font-size: 18px; flex-shrink: 0; }
+
+                                          .infoBanner strong {
+                                            display: block;
+                                              font-size: 13.5px;
+                                                font-weight: 600;
+                                                  color: #1e3a8a;
+                                                    margin-bottom: 3px;
+                                                    }
+
+                                                    .infoBanner p {
+                                                      font-size: 13px;
+                                                        color: #3b82f6;
+                                                          margin: 0;
+                                                            line-height: 1.5;
+                                                            }
+
+                                                            .form {
+                                                              background: #fff;
+                                                                border: 1px solid #e5e7eb;
+                                                                  border-radius: 16px;
+                                                                    padding: 36px 40px;
+                                                                      box-shadow: 0 2px 16px rgba(26, 58, 124, 0.08);
+                                                                        display: flex;
+                                                                          flex-direction: column;
+                                                                            gap: 24px;
+                                                                            }
+
+                                                                            .campo { display: flex; flex-direction: column; gap: 6px; }
+
+                                                                            .label {
+                                                                              font-size: 13.5px;
+                                                                                font-weight: 600;
+                                                                                  color: #374151;
+                                                                                  }
+
+                                                                                  .req { color: #dc2626; margin-left: 2px; }
+
+                                                                                  .input,
+                                                                                  .select,
+                                                                                  .textarea {
+                                                                                    font-family: 'DM Sans', sans-serif;
+                                                                                      font-size: 14px;
+                                                                                        color: #111827;
+                                                                                          background: #f9fafb;
+                                                                                            border: 1.5px solid #e5e7eb;
+                                                                                              border-radius: 9px;
+                                                                                                padding: 10px 14px;
+                                                                                                  width: 100%;
+                                                                                                    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+                                                                                                      outline: none;
+                                                                                                        box-sizing: border-box;
+                                                                                                        }
+
+                                                                                                        .input:hover,
+                                                                                                        .select:hover,
+                                                                                                        .textarea:hover {
+                                                                                                          border-color: #c7d7f5;
+                                                                                                            background: #fff;
+                                                                                                            }
+
+                                                                                                            .input:focus,
+                                                                                                            .select:focus,
+                                                                                                            .textarea:focus {
+                                                                                                              border-color: #1d4ed8;
+                                                                                                                background: #fff;
+                                                                                                                  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
+                                                                                                                  }
+
+                                                                                                                  .select {
+                                                                                                                    cursor: pointer;
+                                                                                                                      appearance: none;
+                                                                                                                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+                                                                                                                          background-repeat: no-repeat;
+                                                                                                                            background-position: right 12px center;
+                                                                                                                              padding-right: 36px;
+                                                                                                                              }
+
+                                                                                                                              .textarea { resize: vertical; min-height: 110px; }
+
+                                                                                                                              .campoError .input,
+                                                                                                                              .campoError .select,
+                                                                                                                              .campoError .textarea {
+                                                                                                                                border-color: #fca5a5;
+                                                                                                                                  background: #fff5f5;
+                                                                                                                                  }
+
+                                                                                                                                  .campoError .input:focus,
+                                                                                                                                  .campoError .select:focus,
+                                                                                                                                  .campoError .textarea:focus {
+                                                                                                                                    border-color: #dc2626;
+                                                                                                                                      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+                                                                                                                                      }
+
+                                                                                                                                      .textareaOver {
+                                                                                                                                        border-color: #fbbf24 !important;
+                                                                                                                                        }
+
+                                                                                                                                        .errorMsg {
+                                                                                                                                          font-size: 12px;
+                                                                                                                                            color: #dc2626;
+                                                                                                                                              margin: 0;
+                                                                                                                                                display: flex;
+                                                                                                                                                  align-items: center;
+                                                                                                                                                    gap: 4px;
+                                                                                                                                                    }
+
+                                                                                                                                                    .errorMsg::before { content: '⚠ '; }
+
+                                                                                                                                                    .charCount {
+                                                                                                                                                      font-size: 11.5px;
+                                                                                                                                                        color: #9ca3af;
+                                                                                                                                                          margin: 0;
+                                                                                                                                                            text-align: right;
+                                                                                                                                                            }
+
+                                                                                                                                                            .charOver { color: #f59e0b; font-weight: 600; }
+
+                                                                                                                                                            .sugerencias { margin-bottom: 8px; }
+
+                                                                                                                                                            .sugerenciasLabel {
+                                                                                                                                                              font-size: 12px;
+                                                                                                                                                                color: #6b7280;
+                                                                                                                                                                  margin: 0 0 6px;
+                                                                                                                                                                  }
+
+                                                                                                                                                                  .sugerenciasRow {
+                                                                                                                                                                    display: flex;
+                                                                                                                                                                      flex-wrap: wrap;
+                                                                                                                                                                        gap: 6px;
+                                                                                                                                                                        }
+
+                                                                                                                                                                        .chip {
+                                                                                                                                                                          display: inline-flex;
+                                                                                                                                                                            align-items: center;
+                                                                                                                                                                              gap: 4px;
+                                                                                                                                                                                background: #f0f4ff;
+                                                                                                                                                                                  color: #1d4ed8;
+                                                                                                                                                                                    border: 1px solid #c7d7f5;
+                                                                                                                                                                                      border-radius: 99px;
+                                                                                                                                                                                        padding: 4px 12px;
+                                                                                                                                                                                          font-size: 12px;
+                                                                                                                                                                                            font-family: 'DM Sans', sans-serif;
+                                                                                                                                                                                              cursor: pointer;
+                                                                                                                                                                                                transition: background 0.15s ease, transform 0.15s ease;
+                                                                                                                                                                                                }
+
+                                                                                                                                                                                                .chip:hover {
+                                                                                                                                                                                                  background: #dbeafe;
+                                                                                                                                                                                                    transform: translateY(-1px);
+                                                                                                                                                                                                    }
+
+                                                                                                                                                                                                    .row2 {
+                                                                                                                                                                                                      display: grid;
+                                                                                                                                                                                                        grid-template-columns: 1fr 1fr;
+                                                                                                                                                                                                          gap: 20px;
+                                                                                                                                                                                                          }
+
+                                                                                                                                                                                                          .nota {
+                                                                                                                                                                                                            font-size: 12.5px;
+                                                                                                                                                                                                              color: #6b7280;
+                                                                                                                                                                                                                background: #f9fafb;
+                                                                                                                                                                                                                  border-radius: 8px;
+                                                                                                                                                                                                                    padding: 10px 14px;
+                                                                                                                                                                                                                      margin: 0;
+                                                                                                                                                                                                                        border-left: 3px solid #e5e7eb;
+                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                        .btnPrimary {
+                                                                                                                                                                                                                          display: inline-flex;
+                                                                                                                                                                                                                            align-items: center;
+                                                                                                                                                                                                                              justify-content: center;
+                                                                                                                                                                                                                                gap: 8px;
+                                                                                                                                                                                                                                  background: #1a3a7c;
+                                                                                                                                                                                                                                    color: #fff;
+                                                                                                                                                                                                                                      border: none;
+                                                                                                                                                                                                                                        border-radius: 10px;
+                                                                                                                                                                                                                                          padding: 12px 28px;
+                                                                                                                                                                                                                                            font-family: 'DM Sans', sans-serif;
+                                                                                                                                                                                                                                              font-size: 15px;
+                                                                                                                                                                                                                                                font-weight: 600;
+                                                                                                                                                                                                                                                  cursor: pointer;
+                                                                                                                                                                                                                                                    transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+                                                                                                                                                                                                                                                      align-self: flex-start;
+                                                                                                                                                                                                                                                      }
+
+                                                                                                                                                                                                                                                      .btnPrimary:hover:not(:disabled) {
+                                                                                                                                                                                                                                                        background: #142e66;
+                                                                                                                                                                                                                                                          transform: translateY(-1px);
+                                                                                                                                                                                                                                                            box-shadow: 0 6px 18px rgba(26, 58, 124, 0.28);
+                                                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                                                            .btnPrimary:disabled {
+                                                                                                                                                                                                                                                              opacity: 0.7;
+                                                                                                                                                                                                                                                                cursor: not-allowed;
+                                                                                                                                                                                                                                                                }
+
+                                                                                                                                                                                                                                                                .spinner {
+                                                                                                                                                                                                                                                                  width: 15px;
+                                                                                                                                                                                                                                                                    height: 15px;
+                                                                                                                                                                                                                                                                      border: 2px solid rgba(255,255,255,0.35);
+                                                                                                                                                                                                                                                                        border-top-color: #fff;
+                                                                                                                                                                                                                                                                          border-radius: 50%;
+                                                                                                                                                                                                                                                                            animation: spin 0.7s linear infinite;
+                                                                                                                                                                                                                                                                              display: inline-block;
+                                                                                                                                                                                                                                                                              }
+
+                                                                                                                                                                                                                                                                              @keyframes spin { to { transform: rotate(360deg); } }
+
+                                                                                                                                                                                                                                                                              .successWrapper {
+                                                                                                                                                                                                                                                                                display: flex;
+                                                                                                                                                                                                                                                                                  align-items: center;
+                                                                                                                                                                                                                                                                                    justify-content: center;
+                                                                                                                                                                                                                                                                                      min-height: 60vh;
+                                                                                                                                                                                                                                                                                        padding: 40px 24px;
+                                                                                                                                                                                                                                                                                        }
+
+                                                                                                                                                                                                                                                                                        .successCard {
+                                                                                                                                                                                                                                                                                          text-align: center;
+                                                                                                                                                                                                                                                                                            background: #fff;
+                                                                                                                                                                                                                                                                                              border: 1px solid #e5e7eb;
+                                                                                                                                                                                                                                                                                                border-radius: 20px;
+                                                                                                                                                                                                                                                                                                  padding: 52px 44px;
+                                                                                                                                                                                                                                                                                                    max-width: 440px;
+                                                                                                                                                                                                                                                                                                      box-shadow: 0 8px 32px rgba(26, 58, 124, 0.1);
+                                                                                                                                                                                                                                                                                                      }
+
+                                                                                                                                                                                                                                                                                                      .successIcon  { font-size: 56px; display: block; margin-bottom: 16px; }
+                                                                                                                                                                                                                                                                                                      .successTitle { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; color: #1a3a7c; margin: 0 0 12px; }
+                                                                                                                                                                                                                                                                                                      .successMsg   { font-size: 14px; color: #6b7280; line-height: 1.6; margin: 0 0 28px; }
+
+                                                                                                                                                                                                                                                                                                      @keyframes fadeUp {
+                                                                                                                                                                                                                                                                                                        from { opacity: 0; transform: translateY(14px); }
+                                                                                                                                                                                                                                                                                                          to   { opacity: 1; transform: translateY(0); }
+                                                                                                                                                                                                                                                                                                          }
+
+                                                                                                                                                                                                                                                                                                          @media (max-width: 640px) {
+                                                                                                                                                                                                                                                                                                            .page  { padding: 32px 16px 60px; }
+                                                                                                                                                                                                                                                                                                              .form  { padding: 24px 20px; }
+                                                                                                                                                                                                                                                                                                                .row2  { grid-template-columns: 1fr; }
+                                                                                                                                                                                                                                                                                                                  .pageTitle { font-size: 1.6rem; }
+                                                                                                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                                                                  .checkboxWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
 }
 
-.pageHeader { margin-bottom: 28px; }
-
-.pageTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1a3a7c;
-  margin: 0 0 6px;
+.checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #1d4ed8;
 }
 
-.pageSubtitle {
+.checkboxLabel {
   font-size: 14px;
-  color: #6b7280;
-  margin: 0;
-}
-
-.infoBanner {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
-  border-left: 4px solid #1d4ed8;
-  border-radius: 10px;
-  padding: 14px 18px;
-  margin-bottom: 36px;
-}
-
-.infoIcon { font-size: 18px; flex-shrink: 0; }
-
-.infoBanner strong {
-  display: block;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: #1e3a8a;
-  margin-bottom: 3px;
-}
-
-.infoBanner p {
-  font-size: 13px;
-  color: #3b82f6;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.form {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 36px 40px;
-  box-shadow: 0 2px 16px rgba(26, 58, 124, 0.08);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.campo { display: flex; flex-direction: column; gap: 6px; }
-
-.label {
-  font-size: 13.5px;
-  font-weight: 600;
   color: #374151;
 }
 
-.req { color: #dc2626; margin-left: 2px; }
-
-.input,
-.select,
-.textarea {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  color: #111827;
-  background: #f9fafb;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 9px;
-  padding: 10px 14px;
-  width: 100%;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-  outline: none;
-  box-sizing: border-box;
-}
-
-.input:hover,
-.select:hover,
-.textarea:hover {
-  border-color: #c7d7f5;
-  background: #fff;
-}
-
-.input:focus,
-.select:focus,
-.textarea:focus {
-  border-color: #1d4ed8;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1);
-}
-
-.select {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  padding-right: 36px;
-}
-
-.textarea { resize: vertical; min-height: 110px; }
-
-.campoError .input,
-.campoError .select,
-.campoError .textarea {
-  border-color: #fca5a5;
-  background: #fff5f5;
-}
-
-.campoError .input:focus,
-.campoError .select:focus,
-.campoError .textarea:focus {
-  border-color: #dc2626;
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
-}
-
-.textareaOver {
-  border-color: #fbbf24 !important;
-}
-
-.errorMsg {
-  font-size: 12px;
+.errorServidor {
+  font-size: 13px;
   color: #dc2626;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.errorMsg::before { content: '⚠ '; }
-
-.charCount {
-  font-size: 11.5px;
-  color: #9ca3af;
-  margin: 0;
-  text-align: right;
-}
-
-.charOver { color: #f59e0b; font-weight: 600; }
-
-.sugerencias { margin-bottom: 8px; }
-
-.sugerenciasLabel {
-  font-size: 12px;
-  color: #6b7280;
-  margin: 0 0 6px;
-}
-
-.sugerenciasRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: #f0f4ff;
-  color: #1d4ed8;
-  border: 1px solid #c7d7f5;
-  border-radius: 99px;
-  padding: 4px 12px;
-  font-size: 12px;
-  font-family: 'DM Sans', sans-serif;
-  cursor: pointer;
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.chip:hover {
-  background: #dbeafe;
-  transform: translateY(-1px);
-}
-
-.row2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-}
-
-.nota {
-  font-size: 12.5px;
-  color: #6b7280;
-  background: #f9fafb;
+  background: #fff5f5;
+  border: 1px solid #fca5a5;
   border-radius: 8px;
   padding: 10px 14px;
   margin: 0;
-  border-left: 3px solid #e5e7eb;
+}                                
+.checkboxGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 0;
 }
 
-.btnPrimary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: #1a3a7c;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 28px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
-  align-self: flex-start;
-}
-
-.btnPrimary:hover:not(:disabled) {
-  background: #142e66;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(26, 58, 124, 0.28);
-}
-
-.btnPrimary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.spinner {
-  width: 15px;
-  height: 15px;
-  border: 2px solid rgba(255,255,255,0.35);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
-  display: inline-block;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.successWrapper {
+.checkboxOption {
   display: flex;
   align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  padding: 40px 24px;
-}
-
-.successCard {
-  text-align: center;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  padding: 52px 44px;
-  max-width: 440px;
-  box-shadow: 0 8px 32px rgba(26, 58, 124, 0.1);
-}
-
-.successIcon  { font-size: 56px; display: block; margin-bottom: 16px; }
-.successTitle { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; color: #1a3a7c; margin: 0 0 12px; }
-.successMsg   { font-size: 14px; color: #6b7280; line-height: 1.6; margin: 0 0 28px; }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 640px) {
-  .page  { padding: 32px 16px 60px; }
-  .form  { padding: 24px 20px; }
-  .row2  { grid-template-columns: 1fr; }
-  .pageTitle { font-size: 1.6rem; }
+  gap: 10px;
+  cursor: pointer;
 }

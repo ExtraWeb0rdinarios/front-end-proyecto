@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useState } from 'react';
 import styles from './Publicar.module.css';
+import { createClient } from '@/lib/supabase/client';
 
 interface FormData {
   titulo: string;
@@ -12,29 +13,32 @@ interface FormData {
   tipoServicio: string;
   ubicacion: string;
   correo: string;
+  nombreEncargado: string;
+  salario: boolean;
 }
 
 type FormErrors = Partial<Record<keyof FormData, string>>;
 
-const DURACIONES = ['6 meses', '12 meses', '18 meses', '24 meses'];
-const MODALIDADES = ['Presencial', 'Remoto', 'Híbrida'];
+const MODALIDADES = [
+  { id: 1, nombre: 'Presencial' },
+  { id: 2, nombre: 'Remoto' },
+  { id: 3, nombre: 'Híbrido' },
+  { id: 4, nombre: 'Flexible' },
+];
+
 const TIPOS_SERVICIO = [
-  'Desarrollo de software',
-  'Análisis de datos',
-  'Soporte técnico',
-  'Investigación',
-  'Administración de sistemas',
-  'Docencia y tutorías',
-  'Diseño y comunicación',
-  'Otro',
+  { id: 1, nombre: 'Prácticas' },
+  { id: 2, nombre: 'Servicio Social' },
+  { id: 3, nombre: 'Medio Tiempo' },
+  { id: 4, nombre: 'Proyecto' },
 ];
 
 const SUGERENCIAS = [
   { emoji: '📋', label: 'Responsabilidades', texto: 'Apoyar en el desarrollo de..., dar seguimiento a..., elaborar reportes...' },
-  { emoji: '🛠️', label: 'Herramientas',       texto: 'Python, Excel, SQL, Git, Figma, Office 365...' },
-  { emoji: '🎯', label: 'Habilidades',         texto: 'Trabajo en equipo, comunicación efectiva, autodidacta...' },
-  { emoji: '🕐', label: 'Horario',             texto: 'Lunes a viernes 9:00–14:00 hrs, flexible o remoto...' },
-  { emoji: '🎁', label: 'Beneficios',          texto: 'Carta de recomendación, constancia, capacitación...' },
+  { emoji: '🛠️', label: 'Herramientas', texto: 'Python, Excel, SQL, Git, Figma, Office 365...' },
+  { emoji: '🎯', label: 'Habilidades', texto: 'Trabajo en equipo, comunicación efectiva, autodidacta...' },
+  { emoji: '🕐', label: 'Horario', texto: 'Lunes a viernes 9:00–14:00 hrs, flexible o remoto...' },
+  { emoji: '🎁', label: 'Beneficios', texto: 'Carta de recomendación, constancia, capacitación...' },
 ];
 
 const VACANTE_INICIAL: FormData = {
@@ -47,18 +51,20 @@ const VACANTE_INICIAL: FormData = {
   tipoServicio: '',
   ubicacion: '',
   correo: '',
+  nombreEncargado: '',
+  salario: false,
 };
-//validacion
+
 function validar(data: FormData): FormErrors {
   const errores: FormErrors = {};
-  if (!data.titulo.trim())              errores.titulo = 'El título de la vacante es obligatorio.';
-  if (!data.descripcionCorta.trim())    errores.descripcionCorta = 'Agrega una descripción corta.';
+  if (!data.titulo.trim()) errores.titulo = 'El título de la vacante es obligatorio.';
+  if (!data.descripcionCorta.trim()) errores.descripcionCorta = 'Agrega una descripción corta.';
   if (!data.descripcionCompleta.trim()) errores.descripcionCompleta = 'La descripción completa es obligatoria.';
-  if (!data.requisitos.trim())          errores.requisitos = 'Lista al menos un requisito.';
-  if (!data.duracion)                   errores.duracion = 'Selecciona la duración.';
-  if (!data.modalidad)                  errores.modalidad = 'Selecciona la modalidad.';
-  if (!data.tipoServicio)               errores.tipoServicio = 'Selecciona el tipo de servicio.';
-  if (!data.ubicacion.trim())           errores.ubicacion = 'Indica la ubicación.';
+  if (!data.requisitos.trim()) errores.requisitos = 'Lista al menos un requisito.';
+  if (!data.modalidad) errores.modalidad = 'Selecciona la modalidad.';
+  if (!data.tipoServicio) errores.tipoServicio = 'Selecciona el tipo de servicio.';
+  if (!data.ubicacion.trim()) errores.ubicacion = 'Indica la ubicación.';
+  if (!data.nombreEncargado.trim()) errores.nombreEncargado = 'El nombre del encargado es obligatorio.';
   if (!data.correo.trim()) {
     errores.correo = 'El correo de contacto es obligatorio.';
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.correo)) {
@@ -67,7 +73,6 @@ function validar(data: FormData): FormErrors {
   return errores;
 }
 
-//campo
 function Campo({
   id, label, error, required = false, children,
 }: {
@@ -85,13 +90,14 @@ function Campo({
 }
 
 export default function Registro() {
-  const [form, setForm]           = useState<FormData>(VACANTE_INICIAL);
-  const [errores, setErrores]     = useState<FormErrors>({});
-  const [enviado, setEnviado]     = useState(false);
-  const [enviando, setEnviando]   = useState(false);
+  const [form, setForm] = useState<FormData>(VACANTE_INICIAL);
+  const [errores, setErrores] = useState<FormErrors>({});
+  const [enviado, setEnviado] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const [errorServidor, setErrorServidor] = useState('');
   const refs = useRef<Partial<Record<keyof FormData, HTMLElement | null>>>({});
 
-  function set(campo: keyof FormData, valor: string) {
+  function set(campo: keyof FormData, valor: string | boolean) {
     setForm((prev) => ({ ...prev, [campo]: valor }));
     if (errores[campo]) setErrores((prev) => ({ ...prev, [campo]: undefined }));
   }
@@ -111,14 +117,71 @@ export default function Registro() {
       setErrores(nuevosErrores);
       const primerCampo = Object.keys(nuevosErrores)[0] as keyof FormData;
       refs.current[primerCampo]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      (refs.current[primerCampo] as HTMLElement | null)?.focus();
       return;
     }
 
     setEnviando(true);
-    await new Promise((r) => setTimeout(r, 900));
-    setEnviando(false);
-    setEnviado(true);
+    setErrorServidor('');
+
+    try {
+     const supabase = createClient();
+// @ts-ignore
+supabase.schema = null;
+
+      // Buscar si el encargado ya existe
+      let idEncargado: number;
+      const { data: encargadoExistente } = await supabase
+        .from('encargados')
+        .select('id_encargado')
+        .eq('email', form.correo)
+        .single();
+
+      if (encargadoExistente) {
+        idEncargado = encargadoExistente.id_encargado;
+      } else {
+        // Crear nuevo encargado
+        const { data: nuevoEncargado, error: errorEncargado } = await supabase
+          .from('encargados')
+          .insert({
+            nombre: form.nombreEncargado,
+            email: form.correo,
+            tipo_encargado: 'Profesor',
+          })
+          .select('id_encargado')
+          .single();
+
+        if (errorEncargado) throw new Error(errorEncargado.message);
+        idEncargado = nuevoEncargado.id_encargado;
+      }
+
+      const { error: errorVacante } = await supabase
+  .from('vacantes')
+  .insert([{
+    nombre: form.titulo,
+    descripcion: form.descripcionCompleta,
+    requisitos: form.requisitos,
+    ubicacion: form.ubicacion,
+    id_modalidad: Number(form.modalidad),
+    id_tipovacante: Number(form.tipoServicio),
+    id_encargado: idEncargado,
+    salario: form.salario,
+    estado: false,
+    fecha_publicacion: new Date().toISOString().split('T')[0],
+    horas: 480,
+    tipo_horario: 'Matutino',
+  }])
+  .select();
+
+      if (errorVacante) throw new Error(errorVacante.message);
+
+      setEnviado(true);
+
+    } catch (error) {
+      setErrorServidor('Ocurrió un error al publicar la vacante. Intenta de nuevo.');
+      console.error(error);
+    } finally {
+      setEnviando(false);
+    }
   }
 
   if (enviado) {
@@ -128,7 +191,7 @@ export default function Registro() {
           <span className={styles.successIcon}>🎉</span>
           <h2 className={styles.successTitle}>¡Vacante enviada!</h2>
           <p className={styles.successMsg}>
-            Gracias. Tu vacante fue enviada y será revisada por nuestro equipo.
+            Gracias. Tu vacante fue enviada y será revisada por nuestro equipo antes de publicarse.
           </p>
           <button className={styles.btnPrimary} onClick={() => { setEnviado(false); setForm(VACANTE_INICIAL); }}>
             Publicar otra vacante
@@ -138,9 +201,9 @@ export default function Registro() {
     );
   }
 
-  const descLen    = form.descripcionCompleta.length;
-  const reqLen     = form.requisitos.length;
-  const MAX        = 800;
+  const descLen = form.descripcionCompleta.length;
+  const reqLen = form.requisitos.length;
+  const MAX = 800;
 
   return (
     <main className={styles.page}>
@@ -228,19 +291,6 @@ export default function Registro() {
         </Campo>
 
         <div className={styles.row2}>
-          <Campo id="duracion" label="Duración" required error={errores.duracion}>
-            <select
-              id="duracion"
-              className={styles.select}
-              value={form.duracion}
-              onChange={(e) => set('duracion', e.target.value)}
-              ref={(el) => { refs.current.duracion = el; }}
-            >
-              <option value="">Selecciona duración</option>
-              {DURACIONES.map((d) => <option key={d} value={d}>{d}</option>)}
-            </select>
-          </Campo>
-
           <Campo id="modalidad" label="Modalidad" required error={errores.modalidad}>
             <select
               id="modalidad"
@@ -250,23 +300,27 @@ export default function Registro() {
               ref={(el) => { refs.current.modalidad = el; }}
             >
               <option value="">Selecciona modalidad</option>
-              {MODALIDADES.map((m) => <option key={m} value={m}>{m}</option>)}
+              {MODALIDADES.map((m) => (
+                <option key={m.id} value={m.id}>{m.nombre}</option>
+              ))}
+            </select>
+          </Campo>
+
+          <Campo id="tipoServicio" label="Tipo de servicio" required error={errores.tipoServicio}>
+            <select
+              id="tipoServicio"
+              className={styles.select}
+              value={form.tipoServicio}
+              onChange={(e) => set('tipoServicio', e.target.value)}
+              ref={(el) => { refs.current.tipoServicio = el; }}
+            >
+              <option value="">Selecciona un tipo</option>
+              {TIPOS_SERVICIO.map((t) => (
+                <option key={t.id} value={t.id}>{t.nombre}</option>
+              ))}
             </select>
           </Campo>
         </div>
-
-        <Campo id="tipoServicio" label="Tipo de servicio" required error={errores.tipoServicio}>
-          <select
-            id="tipoServicio"
-            className={styles.select}
-            value={form.tipoServicio}
-            onChange={(e) => set('tipoServicio', e.target.value)}
-            ref={(el) => { refs.current.tipoServicio = el; }}
-          >
-            <option value="">Selecciona un tipo</option>
-            {TIPOS_SERVICIO.map((t) => <option key={t} value={t}>{t}</option>)}
-          </select>
-        </Campo>
 
         <Campo id="ubicacion" label="Ubicación" required error={errores.ubicacion}>
           <input
@@ -276,6 +330,17 @@ export default function Registro() {
             value={form.ubicacion}
             onChange={(e) => set('ubicacion', e.target.value)}
             ref={(el) => { refs.current.ubicacion = el; }}
+          />
+        </Campo>
+
+        <Campo id="nombreEncargado" label="Nombre del encargado" required error={errores.nombreEncargado}>
+          <input
+            id="nombreEncargado"
+            className={styles.input}
+            placeholder="Ej: Dr. Juan Pérez"
+            value={form.nombreEncargado}
+            onChange={(e) => set('nombreEncargado', e.target.value)}
+            ref={(el) => { refs.current.nombreEncargado = el; }}
           />
         </Campo>
 
@@ -290,6 +355,35 @@ export default function Registro() {
             ref={(el) => { refs.current.correo = el; }}
           />
         </Campo>
+
+        <Campo id="salario" label="Apoyo económico" error={errores.salario}>
+  <div className={styles.checkboxGroup}>
+    <label className={styles.checkboxOption}>
+      <input
+        type="radio"
+        name="salario"
+        checked={form.salario === true}
+        onChange={() => set('salario', true)}
+        className={styles.checkbox}
+      />
+      <span className={styles.checkboxLabel}>💰 Sí, ofrece apoyo económico</span>
+    </label>
+    <label className={styles.checkboxOption}>
+      <input
+        type="radio"
+        name="salario"
+        checked={form.salario === false}
+        onChange={() => set('salario', false)}
+        className={styles.checkbox}
+      />
+      <span className={styles.checkboxLabel}>❌ No se ofrece apoyo económico</span>
+    </label>
+  </div>
+</Campo>
+
+        {errorServidor && (
+          <p className={styles.errorServidor}>⚠️ {errorServidor}</p>
+        )}
 
         <p className={styles.nota}>
           📌 La vacante será procesada para verificación por nuestro equipo antes de publicarse.
