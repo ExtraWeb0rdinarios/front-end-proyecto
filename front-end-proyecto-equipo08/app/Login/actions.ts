@@ -32,5 +32,11 @@ switch (usuario?.rol) {
   case 'profesor':   redirect('/Perfil/profesor')
   case 'empresa':    redirect('/Perfil/empresa')
   default:           redirect('/')
+  }
 }
+
+export async function logout() {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/Login')
 }

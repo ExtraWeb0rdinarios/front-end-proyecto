@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import styles from './page.module.css';
+import {postularse} from './actions'
+
 
 interface VacanteProps {
   id_vacante: number;
@@ -17,6 +19,7 @@ interface VacanteProps {
   requisitos: string;
   salario: boolean;
 }
+
 
 const getVac = async (id: number): Promise<VacanteProps | null> => {
   const supabase = await createClient();
@@ -51,6 +54,8 @@ export default async function Vacante({ params }: { params: Promise<{ id: string
   const { id } = await params;
   const vacante = await getVac(Number(id));
 
+  const postularseAVacante = postularse.bind(null, Number(id))
+
   if (!vacante) {
     return (
       <main style={{ padding: '4rem', textAlign: 'center' }}>
@@ -67,7 +72,6 @@ export default async function Vacante({ params }: { params: Promise<{ id: string
       <Link href="/Vacantes" className={styles.btnRegresar}>
         ← Regresar a vacantes
       </Link>
-
       {/* Header de la vacante */}
       <div className={styles.header}>
         <div className={styles.headerTop}>
@@ -137,14 +141,14 @@ export default async function Vacante({ params }: { params: Promise<{ id: string
             <p className={styles.seccionTexto}>{vacante.requisitos}</p>
           </div>
         )}
-
         {/* Botón postularse */}
         <div className={styles.accion}>
-          <Link href="/Postulaciones" className={styles.btnPostular}>
-            📩 Postularme a esta vacante
-          </Link>
+          <form action={postularseAVacante}>
+            <button type="submit"  className={styles.btnPostular}>
+              📩 Postularme a esta vacante
+            </button>
+          </form>
         </div>
-
       </div>
     </main>
   );
