@@ -1,0 +1,278 @@
+/* ─── Layout principal ─────────────────────────────────────────── */
+.wrapper {
+  min-height: 100vh;
+  background: #f0f4f8;
+  padding: 2.5rem 1rem 4rem;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ─── Hero card (header del perfil) ───────────────────────────── */
+.heroCard {
+  background: #1e3a5f;
+  border-radius: 20px;
+  padding: 2.5rem 2rem 2rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.heroCard::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.12);
+  pointer-events: none;
+}
+
+.heroCard::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: 30%;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.12);
+  pointer-events: none;
+}
+
+/* Avatar */
+.avatar {
+  flex-shrink: 0;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #D4AF37 0%, #f0d060 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  letter-spacing: -1px;
+}
+
+.heroInfo {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.nombre {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.25rem;
+  line-height: 1.2;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  color: #D4AF37;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badgeIcon {
+  font-size: 0.85rem;
+}
+
+/* ─── Grid de cards secundarias ────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ─── Card genérica ────────────────────────────────────────────── */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 28px rgba(30, 58, 95, 0.1);
+  transform: translateY(-2px);
+}
+
+.cardTitle {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #94a3b8;
+  margin: 0 0 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cardTitleIcon {
+  font-size: 1rem;
+  color: #D4AF37;
+}
+
+/* ─── Fila de dato ─────────────────────────────────────────────── */
+.dataRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 1rem;
+}
+
+.dataRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.dataLabel {
+  font-size: 0.82rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.dataLabelIcon {
+  font-size: 0.9rem;
+  color: #2563eb;
+}
+
+.dataValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e3a5f;
+  text-align: right;
+  word-break: break-all;
+}
+
+/* ─── Stat cards (semestre / créditos) ─────────────────────────── */
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.statCard {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.statCard:hover {
+  box-shadow: 0 8px 28px rgba(30, 58, 95, 0.1);
+  transform: translateY(-2px);
+}
+
+.statIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  margin: 0 auto 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.statIconBlue {
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
+}
+
+.statIconGold {
+  background: rgba(212, 175, 55, 0.15);
+  color: #b8960c;
+}
+
+.statNumber {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.statLabel {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+}
+
+/* ─── Barra de progreso de créditos ────────────────────────────── */
+.progressWrap {
+  margin-top: 0.6rem;
+}
+
+.progressBar {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #D4AF37, #f0d060);
+  border-radius: 999px;
+  transition: width 0.8s ease;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .heroCard {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.25rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .nombre {
+    font-size: 1.4rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
