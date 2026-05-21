@@ -8,15 +8,13 @@ export async function registrarUsuario(formData: any) {
   const supabase = await createClient()
   const { correo, password, rol, datosPerfil } = formData
 
-  // Forzamos el rol a un formato estándar para evitar fallos de mayúsculas/minúsculas
-  const rolNormalizado = rol.trim().toLowerCase() // quedará como: 'estudiante', 'profesor' o 'empresa'
+  const rolNormalizado = rol.trim().toLowerCase()
 
   let idEstudiante: number | null = null
   let idEncargado: number | null = null
   let authId: string | null = null
 
   try {
-    // 1. Intentar registrar en Supabase Auth
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: correo,
       password: password,
@@ -38,7 +36,6 @@ export async function registrarUsuario(formData: any) {
     if (!authId) throw new Error("No se pudo obtener el ID de autenticación.")
     console.log('✅ Auth ID listo:', authId)
 
-    // 2. Verificar si ya existe en la tabla pública 'usuarios'
     const { data: usuarioExistente } = await supabase
       .from('usuarios')
       .select('id_usuario, id_estudiante, id_encargado')
@@ -50,8 +47,7 @@ export async function registrarUsuario(formData: any) {
       idEstudiante = usuarioExistente.id_estudiante
       idEncargado = usuarioExistente.id_encargado
     } else {
-      
-      // 3. INSERCIONES CORREGIDAS EVALUANDO EN MINÚSCULAS
+
       if (rolNormalizado === 'estudiante') {
         const { data: cuentaExistente } = await supabase
           .from('estudiantes')
@@ -80,8 +76,8 @@ export async function registrarUsuario(formData: any) {
           if (estError) throw new Error(`Error en tabla Estudiantes: ${estError.message}`)
           idEstudiante = estData.id_alumno
         }
-      } 
-      
+      }
+
       else if (rolNormalizado === 'profesor') {
         console.log('🛒 Insertando en encargados para profesor...')
         const { data: encData, error: encError } = await supabase
@@ -106,8 +102,8 @@ export async function registrarUsuario(formData: any) {
           })
 
         if (profError) throw new Error(`Error en tabla Profesor: ${profError.message}`)
-      } 
-      
+      }
+
       else if (rolNormalizado === 'empresa') {
         console.log('🛒 Insertando en encargados para empresa...')
         const { data: encData, error: encError } = await supabase
@@ -135,13 +131,12 @@ export async function registrarUsuario(formData: any) {
         if (empError) throw new Error(`Error en tabla Empresa: ${empError.message}`)
       }
 
-      // 4. Vincular todo en la tabla central publica.usuarios con el rol correcto
       const { error: userTableError } = await supabase
         .from('usuarios')
         .insert({
           auth_id: authId,
           email: correo,
-          rol: rolNormalizado, // Ahora sí guardará 'profesor' o 'empresa' correctamente
+          rol: rolNormalizado,
           activo: true,
           id_estudiante: idEstudiante,
           id_encargado: idEncargado
@@ -156,14 +151,13 @@ export async function registrarUsuario(formData: any) {
     return { success: false, message: error.message || 'Error en el servidor.' }
   }
 
-  // 5. Redirecciones adaptadas al rol normalizado
   console.log('✈️ Redirigiendo...')
   if (rolNormalizado === 'estudiante') {
     redirect(`/Perfil/estudiante/${idEstudiante}`)
   } else if (rolNormalizado === 'profesor') {
-    redirect('/Perfil/profesor')
+    redirect(`/Perfil/profesor/${idEncargado}`)
   } else if (rolNormalizado === 'empresa') {
-    redirect('/Perfil/empresa')
+    redirect(`/Perfil/empresa/${idEncargado}`)
   } else {
     redirect('/')
   }

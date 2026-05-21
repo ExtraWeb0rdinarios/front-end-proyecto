@@ -29,8 +29,8 @@ export async function login(formData: FormData) {
 
 switch (usuario?.rol) {
   case 'estudiante': redirect(`/Perfil/estudiante/${usuario.id_estudiante}`)
-  case 'profesor':   redirect('/Perfil/profesor')
-  case 'empresa':    redirect('/Perfil/empresa')
+  case 'profesor':   redirect(`/Perfil/profesor/${usuario.id_encargado}`)
+  case 'empresa':    redirect(`/Perfil/empresa/${usuario.id_encargado}`)
   default:           redirect('/')
 }
 }
