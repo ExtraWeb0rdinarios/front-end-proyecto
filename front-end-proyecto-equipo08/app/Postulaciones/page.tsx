@@ -4,18 +4,20 @@
 //AQUI ENLAZAMOS CON VACANTES, UNA VEZ Q SE RELACIONE CON LA BASE DE DATOS
 import { createClient } from '@/lib/supabase/server';
 import styles from './Postulaciones.module.css';
+import Link from 'next/link';
 
 interface Postulacion {
   id_postulacion: number;
   fecha_postulacion: string;
   estado_postulacion: string;
   vacantes:{
+    id_vacante: number
     nombre: string
     horas: number
     tipo_horario: string
     id_modalidad: number
     ubicacion: string
-  }[]
+  } | null
 }
 // AQUÍ SE OBTENDRÁN LAS POSTULACIONES DESDE SUPABASE (fetch a Supabase)---------------------------------------------------------------------------------
 // algo asi: const { data } = await supabase
@@ -48,7 +50,7 @@ function CardPostulacion({ post }: { post: Postulacion }) {
   function handleVerVacante() {
     // AQUÍ IRÁ LA REDIRECCIÓN A LA VACANTE
     // Ejemplo: router.push(`/Vacantes/${post.id}`)
-    console.log('Redirigir a vacante:', post.id);
+    console.log('Redirigir a vacante:', post.id_postulacion);
   }
 
   return (
@@ -61,7 +63,7 @@ function CardPostulacion({ post }: { post: Postulacion }) {
             {post.vacantes?.ubicacion}
           </p>
         </div>
-        <Badge estado={post.estado_postulacion} />
+        
       </div>
 
       <div className={styles.cardMeta}>
@@ -86,10 +88,10 @@ function CardPostulacion({ post }: { post: Postulacion }) {
 
       <div className={styles.cardFooter}>
         {/* AQUÍ IRÁ LA REDIRECCIÓN A LA VACANTE */}
-        <button className={styles.btnVerVacante} onClick={handleVerVacante}>
+        <Link href={`/Vacantes/${post.vacantes?.id_vacante}`} className={styles.btnVerVacante} >
           Ver vacante
           <span className={styles.btnArrow}>→</span>
-        </button>
+        </Link>
       </div>
     </article>
   );
@@ -108,22 +110,24 @@ export default async function MisPostulaciones() {
     .single()
 
   const {data: postulacion} = await supabase
-    .from('postulaciones')
-    .select(`
-      id_postulacion,
-      fecha_postulacion,
-      estado_postulacion,
-      vacantes(
+  .from('postulaciones')
+  .select(`
+    id_postulacion,
+    fecha_postulacion,
+    estado_postulacion,
+    vacantes!fk_postulacion_vacante(
+      id_vacante,
       nombre,
       horas,
       id_modalidad,
-      tipo_horario
-      )
-    `)
-    .eq('id_alumno',usuario?.id_estudiante)
+      tipo_horario,
+      ubicacion
+    )
+  `)
+  .eq('id_alumno', usuario?.id_estudiante)
   
 
-  const postulaciones = postulacion ?? [];
+  const postulaciones = (postulacion ?? []) as unknown as Postulacion[];
 
   return (
     <main className={styles.page}>
