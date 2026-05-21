@@ -1,16 +1,10 @@
 'use client' 
-import Form from 'next/form'
 import styles from './SignInForm.module.css'
 import { useSearchParams } from 'next/navigation'
-import { login } from '../../Login/actions'
+// IMPORTACIÓN DIRECTA: Modifica la ruta si tu estructura es distinta
+import { login } from '../../Login/actions' 
 
-
-
-interface SignInFormProps {
-  action: (formData: FormData) => Promise<void>
-}
-
-export default function SignInForm({ action }: SignInFormProps) {
+export default function SignInForm() { // <-- Ya no recibe props
   const searchParams = useSearchParams()
   const error = searchParams.get('error')
 
@@ -28,7 +22,6 @@ export default function SignInForm({ action }: SignInFormProps) {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-
         {/* Error de credenciales */}
         {error && (
           <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-700">
@@ -36,8 +29,8 @@ export default function SignInForm({ action }: SignInFormProps) {
           </div>
         )}
 
-        {/* action apunta directo a la Server Action */}
-        <form action={action} className="space-y-6">
+        {/* Apunta directamente a la función importada */}
+        <form action={login} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
               Correo electrónico
